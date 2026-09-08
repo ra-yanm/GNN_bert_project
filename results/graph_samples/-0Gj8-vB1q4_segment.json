@@ -1,0 +1,242 @@
+{
+  "track_id": "-0Gj8-vB1q4",
+  "graph_kind": "segment",
+  "num_nodes": 12,
+  "num_edges": 22,
+  "node_feature_dim": 340,
+  "label": null,
+  "nodes": [
+    {
+      "id": 0,
+      "t_start_s": 0.0,
+      "t_end_s": 1.509,
+      "chord": "F:maj",
+      "feat_norm": 11.6824
+    },
+    {
+      "id": 1,
+      "t_start_s": 0.743,
+      "t_end_s": 2.252,
+      "chord": "F:maj",
+      "feat_norm": 8.9239
+    },
+    {
+      "id": 2,
+      "t_start_s": 1.486,
+      "t_end_s": 2.995,
+      "chord": "F:maj",
+      "feat_norm": 8.5537
+    },
+    {
+      "id": 3,
+      "t_start_s": 2.229,
+      "t_end_s": 3.738,
+      "chord": "F:maj",
+      "feat_norm": 9.271
+    },
+    {
+      "id": 4,
+      "t_start_s": 2.972,
+      "t_end_s": 4.481,
+      "chord": "F:maj",
+      "feat_norm": 8.7688
+    },
+    {
+      "id": 5,
+      "t_start_s": 3.715,
+      "t_end_s": 5.224,
+      "chord": "C:maj",
+      "feat_norm": 8.4967
+    },
+    {
+      "id": 6,
+      "t_start_s": 4.458,
+      "t_end_s": 5.968,
+      "chord": "C:maj",
+      "feat_norm": 8.8727
+    },
+    {
+      "id": 7,
+      "t_start_s": 5.201,
+      "t_end_s": 6.711,
+      "chord": "C:maj",
+      "feat_norm": 8.4931
+    },
+    {
+      "id": 8,
+      "t_start_s": 5.944,
+      "t_end_s": 7.454,
+      "chord": "G:maj",
+      "feat_norm": 11.1407
+    },
+    {
+      "id": 9,
+      "t_start_s": 6.687,
+      "t_end_s": 8.197,
+      "chord": "G:maj",
+      "feat_norm": 15.9329
+    },
+    {
+      "id": 10,
+      "t_start_s": 7.43,
+      "t_end_s": 8.94,
+      "chord": "C:min",
+      "feat_norm": 17.0901
+    },
+    {
+      "id": 11,
+      "t_start_s": 8.173,
+      "t_end_s": 9.683,
+      "chord": "C:min",
+      "feat_norm": 16.6222
+    }
+  ],
+  "edges": [
+    {
+      "src": 0,
+      "dst": 1,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 1,
+      "dst": 0,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 1,
+      "dst": 2,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 2,
+      "dst": 1,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 2,
+      "dst": 3,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 3,
+      "dst": 2,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 3,
+      "dst": 4,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 4,
+      "dst": 3,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 4,
+      "dst": 5,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 5,
+      "dst": 4,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 5,
+      "dst": 6,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 6,
+      "dst": 5,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 6,
+      "dst": 7,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 7,
+      "dst": 6,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 7,
+      "dst": 8,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 8,
+      "dst": 7,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 8,
+      "dst": 9,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 9,
+      "dst": 8,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 9,
+      "dst": 10,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 10,
+      "dst": 9,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 10,
+      "dst": 11,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 11,
+      "dst": 10,
+      "weight": 1.0,
+      "kind": "temporal"
+    }
+  ],
+  "chord_sequence": [
+    "F:maj",
+    "F:maj",
+    "F:maj",
+    "F:maj",
+    "F:maj",
+    "C:maj",
+    "C:maj",
+    "C:maj",
+    "G:maj",
+    "G:maj",
+    "C:min",
+    "C:min"
+  ]
+}

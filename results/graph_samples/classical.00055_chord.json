@@ -1,0 +1,140 @@
+{
+  "track_id": "classical.00055",
+  "graph_kind": "chord",
+  "num_nodes": 8,
+  "num_edges": 12,
+  "node_feature_dim": 40,
+  "label": 1,
+  "nodes": [
+    {
+      "id": 0,
+      "chord": "D:maj",
+      "feat_norm": 12.0957
+    },
+    {
+      "id": 1,
+      "chord": "E:maj",
+      "feat_norm": 10.3758
+    },
+    {
+      "id": 2,
+      "chord": "F#:maj",
+      "feat_norm": 12.7979
+    },
+    {
+      "id": 3,
+      "chord": "A:maj",
+      "feat_norm": 13.2913
+    },
+    {
+      "id": 4,
+      "chord": "B:maj",
+      "feat_norm": 12.9196
+    },
+    {
+      "id": 5,
+      "chord": "C#:min",
+      "feat_norm": 10.8214
+    },
+    {
+      "id": 6,
+      "chord": "F#:min",
+      "feat_norm": 12.3297
+    },
+    {
+      "id": 7,
+      "chord": "A:min",
+      "feat_norm": 13.6488
+    }
+  ],
+  "edges": [
+    {
+      "src": 3,
+      "dst": 6,
+      "weight": 0.1538,
+      "kind": "temporal"
+    },
+    {
+      "src": 6,
+      "dst": 2,
+      "weight": 0.0769,
+      "kind": "temporal"
+    },
+    {
+      "src": 2,
+      "dst": 4,
+      "weight": 0.0769,
+      "kind": "temporal"
+    },
+    {
+      "src": 4,
+      "dst": 7,
+      "weight": 0.0769,
+      "kind": "temporal"
+    },
+    {
+      "src": 7,
+      "dst": 0,
+      "weight": 0.0769,
+      "kind": "temporal"
+    },
+    {
+      "src": 0,
+      "dst": 1,
+      "weight": 0.0769,
+      "kind": "temporal"
+    },
+    {
+      "src": 1,
+      "dst": 3,
+      "weight": 0.0769,
+      "kind": "temporal"
+    },
+    {
+      "src": 6,
+      "dst": 4,
+      "weight": 0.0769,
+      "kind": "temporal"
+    },
+    {
+      "src": 4,
+      "dst": 1,
+      "weight": 0.0769,
+      "kind": "temporal"
+    },
+    {
+      "src": 1,
+      "dst": 5,
+      "weight": 0.0769,
+      "kind": "temporal"
+    },
+    {
+      "src": 5,
+      "dst": 3,
+      "weight": 0.0769,
+      "kind": "temporal"
+    },
+    {
+      "src": 3,
+      "dst": 4,
+      "weight": 0.0769,
+      "kind": "temporal"
+    }
+  ],
+  "chord_sequence": [
+    "A:maj",
+    "F#:min",
+    "F#:maj",
+    "B:maj",
+    "A:min",
+    "D:maj",
+    "E:maj",
+    "A:maj",
+    "F#:min",
+    "B:maj",
+    "E:maj",
+    "C#:min",
+    "A:maj",
+    "B:maj"
+  ]
+}

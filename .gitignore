@@ -23,6 +23,11 @@ Thumbs.db
 .env
 .env.*
 !.env.example
+how to run.txt
+
+# Keep only the final report PDF
+report/**
+!report/final_report.pdf
 
 # Downloaded and processed datasets
 data/**
@@ -31,6 +36,8 @@ data/**
 # Generated experiment outputs
 results/**
 !results/metrics.json
+!results/graph_samples/
+!results/graph_samples/**
 !results/plots/
 !results/plots/**
 !results/retrieval_examples/
@@ -40,7 +47,6 @@ results/**
 results/checkpoints/
 results/preds/
 results/tables/
-results/graph_samples/
 results/*.log
 
 # Notebook runtime state

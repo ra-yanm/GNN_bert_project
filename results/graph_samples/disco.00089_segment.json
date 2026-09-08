@@ -1,0 +1,506 @@
+{
+  "track_id": "disco.00089",
+  "graph_kind": "segment",
+  "num_nodes": 18,
+  "num_edges": 58,
+  "node_feature_dim": 340,
+  "label": 3,
+  "nodes": [
+    {
+      "id": 0,
+      "t_start_s": 0.0,
+      "t_end_s": 2.995,
+      "chord": "C:min",
+      "feat_norm": 14.1511
+    },
+    {
+      "id": 1,
+      "t_start_s": 1.509,
+      "t_end_s": 4.505,
+      "chord": "F:maj",
+      "feat_norm": 12.6076
+    },
+    {
+      "id": 2,
+      "t_start_s": 3.019,
+      "t_end_s": 6.014,
+      "chord": "F:maj",
+      "feat_norm": 11.4317
+    },
+    {
+      "id": 3,
+      "t_start_s": 4.528,
+      "t_end_s": 7.523,
+      "chord": "D:min",
+      "feat_norm": 10.8167
+    },
+    {
+      "id": 4,
+      "t_start_s": 6.037,
+      "t_end_s": 9.033,
+      "chord": "A:min",
+      "feat_norm": 10.678
+    },
+    {
+      "id": 5,
+      "t_start_s": 7.546,
+      "t_end_s": 10.542,
+      "chord": "C:maj",
+      "feat_norm": 10.8124
+    },
+    {
+      "id": 6,
+      "t_start_s": 9.056,
+      "t_end_s": 12.051,
+      "chord": "F:maj",
+      "feat_norm": 11.0899
+    },
+    {
+      "id": 7,
+      "t_start_s": 10.565,
+      "t_end_s": 13.56,
+      "chord": "F:maj",
+      "feat_norm": 11.1585
+    },
+    {
+      "id": 8,
+      "t_start_s": 12.074,
+      "t_end_s": 15.07,
+      "chord": "D:min",
+      "feat_norm": 11.3318
+    },
+    {
+      "id": 9,
+      "t_start_s": 13.584,
+      "t_end_s": 16.579,
+      "chord": "A:min",
+      "feat_norm": 11.1663
+    },
+    {
+      "id": 10,
+      "t_start_s": 15.093,
+      "t_end_s": 18.088,
+      "chord": "C:maj",
+      "feat_norm": 11.4272
+    },
+    {
+      "id": 11,
+      "t_start_s": 16.602,
+      "t_end_s": 19.598,
+      "chord": "C:maj",
+      "feat_norm": 12.2994
+    },
+    {
+      "id": 12,
+      "t_start_s": 18.112,
+      "t_end_s": 21.107,
+      "chord": "C:min",
+      "feat_norm": 13.026
+    },
+    {
+      "id": 13,
+      "t_start_s": 19.621,
+      "t_end_s": 22.616,
+      "chord": "C:min",
+      "feat_norm": 13.1689
+    },
+    {
+      "id": 14,
+      "t_start_s": 21.13,
+      "t_end_s": 24.126,
+      "chord": "C:min",
+      "feat_norm": 13.4082
+    },
+    {
+      "id": 15,
+      "t_start_s": 22.639,
+      "t_end_s": 25.635,
+      "chord": "C:min",
+      "feat_norm": 13.4489
+    },
+    {
+      "id": 16,
+      "t_start_s": 24.149,
+      "t_end_s": 27.144,
+      "chord": "C:min",
+      "feat_norm": 13.1314
+    },
+    {
+      "id": 17,
+      "t_start_s": 25.658,
+      "t_end_s": 28.653,
+      "chord": "C:min",
+      "feat_norm": 13.4078
+    }
+  ],
+  "edges": [
+    {
+      "src": 0,
+      "dst": 1,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 1,
+      "dst": 0,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 1,
+      "dst": 2,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 2,
+      "dst": 1,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 2,
+      "dst": 3,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 2,
+      "dst": 7,
+      "weight": 0.9778,
+      "kind": "similarity"
+    },
+    {
+      "src": 3,
+      "dst": 2,
+      "weight": 0.958,
+      "kind": "similarity"
+    },
+    {
+      "src": 3,
+      "dst": 4,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 3,
+      "dst": 7,
+      "weight": 0.9601,
+      "kind": "similarity"
+    },
+    {
+      "src": 3,
+      "dst": 8,
+      "weight": 0.9888,
+      "kind": "similarity"
+    },
+    {
+      "src": 3,
+      "dst": 9,
+      "weight": 0.9561,
+      "kind": "similarity"
+    },
+    {
+      "src": 4,
+      "dst": 3,
+      "weight": 0.963,
+      "kind": "similarity"
+    },
+    {
+      "src": 4,
+      "dst": 5,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 4,
+      "dst": 7,
+      "weight": 0.9542,
+      "kind": "similarity"
+    },
+    {
+      "src": 4,
+      "dst": 8,
+      "weight": 0.9635,
+      "kind": "similarity"
+    },
+    {
+      "src": 4,
+      "dst": 9,
+      "weight": 0.9881,
+      "kind": "similarity"
+    },
+    {
+      "src": 5,
+      "dst": 4,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 5,
+      "dst": 6,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 5,
+      "dst": 10,
+      "weight": 0.9751,
+      "kind": "similarity"
+    },
+    {
+      "src": 6,
+      "dst": 5,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 6,
+      "dst": 7,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 6,
+      "dst": 10,
+      "weight": 0.9562,
+      "kind": "similarity"
+    },
+    {
+      "src": 7,
+      "dst": 2,
+      "weight": 0.9778,
+      "kind": "similarity"
+    },
+    {
+      "src": 7,
+      "dst": 3,
+      "weight": 0.9601,
+      "kind": "similarity"
+    },
+    {
+      "src": 7,
+      "dst": 4,
+      "weight": 0.9542,
+      "kind": "similarity"
+    },
+    {
+      "src": 7,
+      "dst": 6,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 7,
+      "dst": 8,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 7,
+      "dst": 9,
+      "weight": 0.9573,
+      "kind": "similarity"
+    },
+    {
+      "src": 8,
+      "dst": 3,
+      "weight": 0.9888,
+      "kind": "similarity"
+    },
+    {
+      "src": 8,
+      "dst": 4,
+      "weight": 0.9635,
+      "kind": "similarity"
+    },
+    {
+      "src": 8,
+      "dst": 7,
+      "weight": 0.9654,
+      "kind": "similarity"
+    },
+    {
+      "src": 8,
+      "dst": 9,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 9,
+      "dst": 3,
+      "weight": 0.9561,
+      "kind": "similarity"
+    },
+    {
+      "src": 9,
+      "dst": 4,
+      "weight": 0.9881,
+      "kind": "similarity"
+    },
+    {
+      "src": 9,
+      "dst": 7,
+      "weight": 0.9573,
+      "kind": "similarity"
+    },
+    {
+      "src": 9,
+      "dst": 8,
+      "weight": 0.9653,
+      "kind": "similarity"
+    },
+    {
+      "src": 9,
+      "dst": 10,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 10,
+      "dst": 5,
+      "weight": 0.9751,
+      "kind": "similarity"
+    },
+    {
+      "src": 10,
+      "dst": 6,
+      "weight": 0.9562,
+      "kind": "similarity"
+    },
+    {
+      "src": 10,
+      "dst": 9,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 10,
+      "dst": 11,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 11,
+      "dst": 10,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 11,
+      "dst": 12,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 12,
+      "dst": 11,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 12,
+      "dst": 13,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 13,
+      "dst": 12,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 13,
+      "dst": 14,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 14,
+      "dst": 13,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 14,
+      "dst": 15,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 14,
+      "dst": 17,
+      "weight": 0.964,
+      "kind": "similarity"
+    },
+    {
+      "src": 15,
+      "dst": 14,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 15,
+      "dst": 16,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 15,
+      "dst": 17,
+      "weight": 0.9515,
+      "kind": "similarity"
+    },
+    {
+      "src": 16,
+      "dst": 15,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 16,
+      "dst": 17,
+      "weight": 0.9678,
+      "kind": "similarity"
+    },
+    {
+      "src": 17,
+      "dst": 14,
+      "weight": 0.964,
+      "kind": "similarity"
+    },
+    {
+      "src": 17,
+      "dst": 15,
+      "weight": 0.9515,
+      "kind": "similarity"
+    },
+    {
+      "src": 17,
+      "dst": 16,
+      "weight": 1.0,
+      "kind": "temporal"
+    }
+  ],
+  "chord_sequence": [
+    "C:min",
+    "F:maj",
+    "F:maj",
+    "D:min",
+    "A:min",
+    "C:maj",
+    "F:maj",
+    "F:maj",
+    "D:min",
+    "A:min",
+    "C:maj",
+    "C:maj",
+    "C:min",
+    "C:min",
+    "C:min",
+    "C:min",
+    "C:min",
+    "C:min"
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "track_id": "disco.00011",
+  "graph_kind": "chord",
+  "num_nodes": 3,
+  "num_edges": 3,
+  "node_feature_dim": 40,
+  "label": 3,
+  "nodes": [
+    {
+      "id": 0,
+      "chord": "C:maj",
+      "feat_norm": 13.0058
+    },
+    {
+      "id": 1,
+      "chord": "F:maj",
+      "feat_norm": 12.2183
+    },
+    {
+      "id": 2,
+      "chord": "A:min",
+      "feat_norm": 20.1715
+    }
+  ],
+  "edges": [
+    {
+      "src": 2,
+      "dst": 1,
+      "weight": 0.3333,
+      "kind": "temporal"
+    },
+    {
+      "src": 1,
+      "dst": 2,
+      "weight": 0.3333,
+      "kind": "temporal"
+    },
+    {
+      "src": 2,
+      "dst": 0,
+      "weight": 0.3333,
+      "kind": "temporal"
+    }
+  ],
+  "chord_sequence": [
+    "A:min",
+    "F:maj",
+    "A:min",
+    "C:maj"
+  ]
+}

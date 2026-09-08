@@ -1,0 +1,242 @@
+{
+  "track_id": "D3FyfFIKLVc",
+  "graph_kind": "segment",
+  "num_nodes": 12,
+  "num_edges": 22,
+  "node_feature_dim": 340,
+  "label": null,
+  "nodes": [
+    {
+      "id": 0,
+      "t_start_s": 0.0,
+      "t_end_s": 1.509,
+      "chord": "D#:maj",
+      "feat_norm": 10.9226
+    },
+    {
+      "id": 1,
+      "t_start_s": 0.743,
+      "t_end_s": 2.252,
+      "chord": "F:min",
+      "feat_norm": 13.8858
+    },
+    {
+      "id": 2,
+      "t_start_s": 1.486,
+      "t_end_s": 2.995,
+      "chord": "G#:maj",
+      "feat_norm": 14.4092
+    },
+    {
+      "id": 3,
+      "t_start_s": 2.229,
+      "t_end_s": 3.738,
+      "chord": "C:min",
+      "feat_norm": 12.6033
+    },
+    {
+      "id": 4,
+      "t_start_s": 2.972,
+      "t_end_s": 4.481,
+      "chord": "D#:maj",
+      "feat_norm": 11.1903
+    },
+    {
+      "id": 5,
+      "t_start_s": 3.715,
+      "t_end_s": 5.224,
+      "chord": "A#:maj",
+      "feat_norm": 12.0569
+    },
+    {
+      "id": 6,
+      "t_start_s": 4.458,
+      "t_end_s": 5.968,
+      "chord": "A#:maj",
+      "feat_norm": 12.7289
+    },
+    {
+      "id": 7,
+      "t_start_s": 5.201,
+      "t_end_s": 6.711,
+      "chord": "D#:maj",
+      "feat_norm": 11.3335
+    },
+    {
+      "id": 8,
+      "t_start_s": 5.944,
+      "t_end_s": 7.454,
+      "chord": "A#:min",
+      "feat_norm": 12.8811
+    },
+    {
+      "id": 9,
+      "t_start_s": 6.687,
+      "t_end_s": 8.197,
+      "chord": "D#:maj",
+      "feat_norm": 13.1815
+    },
+    {
+      "id": 10,
+      "t_start_s": 7.43,
+      "t_end_s": 8.94,
+      "chord": "D#:maj",
+      "feat_norm": 12.2889
+    },
+    {
+      "id": 11,
+      "t_start_s": 8.173,
+      "t_end_s": 9.683,
+      "chord": "D#:maj",
+      "feat_norm": 11.9407
+    }
+  ],
+  "edges": [
+    {
+      "src": 0,
+      "dst": 1,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 1,
+      "dst": 0,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 1,
+      "dst": 2,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 2,
+      "dst": 1,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 2,
+      "dst": 3,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 3,
+      "dst": 2,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 3,
+      "dst": 4,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 4,
+      "dst": 3,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 4,
+      "dst": 5,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 5,
+      "dst": 4,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 5,
+      "dst": 6,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 6,
+      "dst": 5,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 6,
+      "dst": 7,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 7,
+      "dst": 6,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 7,
+      "dst": 8,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 8,
+      "dst": 7,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 8,
+      "dst": 9,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 9,
+      "dst": 8,
+      "weight": 0.968,
+      "kind": "similarity"
+    },
+    {
+      "src": 9,
+      "dst": 10,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 10,
+      "dst": 9,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 10,
+      "dst": 11,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 11,
+      "dst": 10,
+      "weight": 0.9562,
+      "kind": "similarity"
+    }
+  ],
+  "chord_sequence": [
+    "D#:maj",
+    "F:min",
+    "G#:maj",
+    "C:min",
+    "D#:maj",
+    "A#:maj",
+    "A#:maj",
+    "D#:maj",
+    "A#:min",
+    "D#:maj",
+    "D#:maj",
+    "D#:maj"
+  ]
+}

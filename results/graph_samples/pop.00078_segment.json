@@ -1,0 +1,614 @@
+{
+  "track_id": "pop.00078",
+  "graph_kind": "segment",
+  "num_nodes": 18,
+  "num_edges": 76,
+  "node_feature_dim": 340,
+  "label": 7,
+  "nodes": [
+    {
+      "id": 0,
+      "t_start_s": 0.0,
+      "t_end_s": 2.995,
+      "chord": "D#:maj",
+      "feat_norm": 13.6844
+    },
+    {
+      "id": 1,
+      "t_start_s": 1.509,
+      "t_end_s": 4.505,
+      "chord": "C#:maj",
+      "feat_norm": 12.8783
+    },
+    {
+      "id": 2,
+      "t_start_s": 3.019,
+      "t_end_s": 6.014,
+      "chord": "C#:maj",
+      "feat_norm": 12.36
+    },
+    {
+      "id": 3,
+      "t_start_s": 4.528,
+      "t_end_s": 7.523,
+      "chord": "C#:maj",
+      "feat_norm": 11.7546
+    },
+    {
+      "id": 4,
+      "t_start_s": 6.037,
+      "t_end_s": 9.033,
+      "chord": "C#:min",
+      "feat_norm": 12.4491
+    },
+    {
+      "id": 5,
+      "t_start_s": 7.546,
+      "t_end_s": 10.542,
+      "chord": "G#:min",
+      "feat_norm": 13.6997
+    },
+    {
+      "id": 6,
+      "t_start_s": 9.056,
+      "t_end_s": 12.051,
+      "chord": "G#:min",
+      "feat_norm": 13.8033
+    },
+    {
+      "id": 7,
+      "t_start_s": 10.565,
+      "t_end_s": 13.56,
+      "chord": "C#:min",
+      "feat_norm": 13.4217
+    },
+    {
+      "id": 8,
+      "t_start_s": 12.074,
+      "t_end_s": 15.07,
+      "chord": "C#:maj",
+      "feat_norm": 12.4467
+    },
+    {
+      "id": 9,
+      "t_start_s": 13.584,
+      "t_end_s": 16.579,
+      "chord": "D#:min",
+      "feat_norm": 12.4558
+    },
+    {
+      "id": 10,
+      "t_start_s": 15.093,
+      "t_end_s": 18.088,
+      "chord": "G#:min",
+      "feat_norm": 12.4238
+    },
+    {
+      "id": 11,
+      "t_start_s": 16.602,
+      "t_end_s": 19.598,
+      "chord": "D#:maj",
+      "feat_norm": 11.2033
+    },
+    {
+      "id": 12,
+      "t_start_s": 18.112,
+      "t_end_s": 21.107,
+      "chord": "D#:maj",
+      "feat_norm": 10.8455
+    },
+    {
+      "id": 13,
+      "t_start_s": 19.621,
+      "t_end_s": 22.616,
+      "chord": "G#:min",
+      "feat_norm": 11.9706
+    },
+    {
+      "id": 14,
+      "t_start_s": 21.13,
+      "t_end_s": 24.126,
+      "chord": "C#:maj",
+      "feat_norm": 11.9975
+    },
+    {
+      "id": 15,
+      "t_start_s": 22.639,
+      "t_end_s": 25.635,
+      "chord": "C#:maj",
+      "feat_norm": 10.8501
+    },
+    {
+      "id": 16,
+      "t_start_s": 24.149,
+      "t_end_s": 27.144,
+      "chord": "D#:maj",
+      "feat_norm": 11.4302
+    },
+    {
+      "id": 17,
+      "t_start_s": 25.658,
+      "t_end_s": 28.653,
+      "chord": "G#:min",
+      "feat_norm": 11.5444
+    }
+  ],
+  "edges": [
+    {
+      "src": 0,
+      "dst": 1,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 0,
+      "dst": 5,
+      "weight": 0.9647,
+      "kind": "similarity"
+    },
+    {
+      "src": 0,
+      "dst": 6,
+      "weight": 0.9811,
+      "kind": "similarity"
+    },
+    {
+      "src": 0,
+      "dst": 7,
+      "weight": 0.9631,
+      "kind": "similarity"
+    },
+    {
+      "src": 1,
+      "dst": 0,
+      "weight": 0.9711,
+      "kind": "similarity"
+    },
+    {
+      "src": 1,
+      "dst": 2,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 1,
+      "dst": 5,
+      "weight": 0.9767,
+      "kind": "similarity"
+    },
+    {
+      "src": 1,
+      "dst": 6,
+      "weight": 0.9581,
+      "kind": "similarity"
+    },
+    {
+      "src": 1,
+      "dst": 7,
+      "weight": 0.9728,
+      "kind": "similarity"
+    },
+    {
+      "src": 2,
+      "dst": 1,
+      "weight": 0.9807,
+      "kind": "similarity"
+    },
+    {
+      "src": 2,
+      "dst": 3,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 2,
+      "dst": 5,
+      "weight": 0.9626,
+      "kind": "similarity"
+    },
+    {
+      "src": 2,
+      "dst": 7,
+      "weight": 0.9661,
+      "kind": "similarity"
+    },
+    {
+      "src": 3,
+      "dst": 2,
+      "weight": 0.969,
+      "kind": "similarity"
+    },
+    {
+      "src": 3,
+      "dst": 4,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 3,
+      "dst": 14,
+      "weight": 0.9566,
+      "kind": "similarity"
+    },
+    {
+      "src": 3,
+      "dst": 15,
+      "weight": 0.9562,
+      "kind": "similarity"
+    },
+    {
+      "src": 4,
+      "dst": 3,
+      "weight": 0.9579,
+      "kind": "similarity"
+    },
+    {
+      "src": 4,
+      "dst": 5,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 5,
+      "dst": 0,
+      "weight": 0.9647,
+      "kind": "similarity"
+    },
+    {
+      "src": 5,
+      "dst": 1,
+      "weight": 0.9767,
+      "kind": "similarity"
+    },
+    {
+      "src": 5,
+      "dst": 2,
+      "weight": 0.9626,
+      "kind": "similarity"
+    },
+    {
+      "src": 5,
+      "dst": 4,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 5,
+      "dst": 6,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 5,
+      "dst": 7,
+      "weight": 0.9856,
+      "kind": "similarity"
+    },
+    {
+      "src": 5,
+      "dst": 8,
+      "weight": 0.9536,
+      "kind": "similarity"
+    },
+    {
+      "src": 6,
+      "dst": 0,
+      "weight": 0.9811,
+      "kind": "similarity"
+    },
+    {
+      "src": 6,
+      "dst": 1,
+      "weight": 0.9581,
+      "kind": "similarity"
+    },
+    {
+      "src": 6,
+      "dst": 5,
+      "weight": 0.9754,
+      "kind": "similarity"
+    },
+    {
+      "src": 6,
+      "dst": 7,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 7,
+      "dst": 0,
+      "weight": 0.9631,
+      "kind": "similarity"
+    },
+    {
+      "src": 7,
+      "dst": 1,
+      "weight": 0.9728,
+      "kind": "similarity"
+    },
+    {
+      "src": 7,
+      "dst": 2,
+      "weight": 0.9661,
+      "kind": "similarity"
+    },
+    {
+      "src": 7,
+      "dst": 5,
+      "weight": 0.9856,
+      "kind": "similarity"
+    },
+    {
+      "src": 7,
+      "dst": 6,
+      "weight": 0.9755,
+      "kind": "similarity"
+    },
+    {
+      "src": 7,
+      "dst": 8,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 8,
+      "dst": 5,
+      "weight": 0.9536,
+      "kind": "similarity"
+    },
+    {
+      "src": 8,
+      "dst": 7,
+      "weight": 0.9616,
+      "kind": "similarity"
+    },
+    {
+      "src": 8,
+      "dst": 9,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 9,
+      "dst": 8,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 9,
+      "dst": 10,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 10,
+      "dst": 9,
+      "weight": 0.9577,
+      "kind": "similarity"
+    },
+    {
+      "src": 10,
+      "dst": 11,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 11,
+      "dst": 10,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 11,
+      "dst": 12,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 11,
+      "dst": 13,
+      "weight": 0.972,
+      "kind": "similarity"
+    },
+    {
+      "src": 11,
+      "dst": 14,
+      "weight": 0.9648,
+      "kind": "similarity"
+    },
+    {
+      "src": 11,
+      "dst": 16,
+      "weight": 0.9785,
+      "kind": "similarity"
+    },
+    {
+      "src": 11,
+      "dst": 17,
+      "weight": 0.9838,
+      "kind": "similarity"
+    },
+    {
+      "src": 12,
+      "dst": 11,
+      "weight": 0.9859,
+      "kind": "similarity"
+    },
+    {
+      "src": 12,
+      "dst": 13,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 12,
+      "dst": 15,
+      "weight": 0.9574,
+      "kind": "similarity"
+    },
+    {
+      "src": 12,
+      "dst": 16,
+      "weight": 0.9719,
+      "kind": "similarity"
+    },
+    {
+      "src": 12,
+      "dst": 17,
+      "weight": 0.9809,
+      "kind": "similarity"
+    },
+    {
+      "src": 13,
+      "dst": 11,
+      "weight": 0.972,
+      "kind": "similarity"
+    },
+    {
+      "src": 13,
+      "dst": 12,
+      "weight": 0.981,
+      "kind": "similarity"
+    },
+    {
+      "src": 13,
+      "dst": 14,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 13,
+      "dst": 17,
+      "weight": 0.9811,
+      "kind": "similarity"
+    },
+    {
+      "src": 14,
+      "dst": 3,
+      "weight": 0.9566,
+      "kind": "similarity"
+    },
+    {
+      "src": 14,
+      "dst": 11,
+      "weight": 0.9648,
+      "kind": "similarity"
+    },
+    {
+      "src": 14,
+      "dst": 13,
+      "weight": 0.9839,
+      "kind": "similarity"
+    },
+    {
+      "src": 14,
+      "dst": 15,
+      "weight": 0.9677,
+      "kind": "similarity"
+    },
+    {
+      "src": 14,
+      "dst": 17,
+      "weight": 0.9729,
+      "kind": "similarity"
+    },
+    {
+      "src": 15,
+      "dst": 3,
+      "weight": 0.9562,
+      "kind": "similarity"
+    },
+    {
+      "src": 15,
+      "dst": 12,
+      "weight": 0.9574,
+      "kind": "similarity"
+    },
+    {
+      "src": 15,
+      "dst": 14,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 15,
+      "dst": 16,
+      "weight": 0.9766,
+      "kind": "similarity"
+    },
+    {
+      "src": 16,
+      "dst": 11,
+      "weight": 0.9785,
+      "kind": "similarity"
+    },
+    {
+      "src": 16,
+      "dst": 12,
+      "weight": 0.9719,
+      "kind": "similarity"
+    },
+    {
+      "src": 16,
+      "dst": 15,
+      "weight": 1.0,
+      "kind": "temporal"
+    },
+    {
+      "src": 16,
+      "dst": 17,
+      "weight": 0.9732,
+      "kind": "similarity"
+    },
+    {
+      "src": 17,
+      "dst": 11,
+      "weight": 0.9838,
+      "kind": "similarity"
+    },
+    {
+      "src": 17,
+      "dst": 12,
+      "weight": 0.9809,
+      "kind": "similarity"
+    },
+    {
+      "src": 17,
+      "dst": 13,
+      "weight": 0.9811,
+      "kind": "similarity"
+    },
+    {
+      "src": 17,
+      "dst": 14,
+      "weight": 0.9729,
+      "kind": "similarity"
+    },
+    {
+      "src": 17,
+      "dst": 16,
+      "weight": 0.9732,
+      "kind": "similarity"
+    }
+  ],
+  "chord_sequence": [
+    "D#:maj",
+    "C#:maj",
+    "C#:maj",
+    "C#:maj",
+    "C#:min",
+    "G#:min",
+    "G#:min",
+    "C#:min",
+    "C#:maj",
+    "D#:min",
+    "G#:min",
+    "D#:maj",
+    "D#:maj",
+    "G#:min",
+    "C#:maj",
+    "C#:maj",
+    "D#:maj",
+    "G#:min"
+  ]
+}

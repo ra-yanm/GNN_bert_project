@@ -1,0 +1,140 @@
+{
+  "track_id": "metal.00056",
+  "graph_kind": "chord",
+  "num_nodes": 8,
+  "num_edges": 12,
+  "node_feature_dim": 40,
+  "label": 6,
+  "nodes": [
+    {
+      "id": 0,
+      "chord": "E:maj",
+      "feat_norm": 13.3573
+    },
+    {
+      "id": 1,
+      "chord": "A:maj",
+      "feat_norm": 12.6762
+    },
+    {
+      "id": 2,
+      "chord": "B:maj",
+      "feat_norm": 13.1092
+    },
+    {
+      "id": 3,
+      "chord": "C#:min",
+      "feat_norm": 12.9739
+    },
+    {
+      "id": 4,
+      "chord": "E:min",
+      "feat_norm": 12.8316
+    },
+    {
+      "id": 5,
+      "chord": "G#:min",
+      "feat_norm": 12.828
+    },
+    {
+      "id": 6,
+      "chord": "A:min",
+      "feat_norm": 12.4717
+    },
+    {
+      "id": 7,
+      "chord": "B:min",
+      "feat_norm": 12.2723
+    }
+  ],
+  "edges": [
+    {
+      "src": 0,
+      "dst": 3,
+      "weight": 0.0769,
+      "kind": "temporal"
+    },
+    {
+      "src": 3,
+      "dst": 0,
+      "weight": 0.0769,
+      "kind": "temporal"
+    },
+    {
+      "src": 0,
+      "dst": 7,
+      "weight": 0.0769,
+      "kind": "temporal"
+    },
+    {
+      "src": 7,
+      "dst": 3,
+      "weight": 0.0769,
+      "kind": "temporal"
+    },
+    {
+      "src": 3,
+      "dst": 2,
+      "weight": 0.0769,
+      "kind": "temporal"
+    },
+    {
+      "src": 2,
+      "dst": 5,
+      "weight": 0.0769,
+      "kind": "temporal"
+    },
+    {
+      "src": 5,
+      "dst": 4,
+      "weight": 0.0769,
+      "kind": "temporal"
+    },
+    {
+      "src": 4,
+      "dst": 0,
+      "weight": 0.0769,
+      "kind": "temporal"
+    },
+    {
+      "src": 0,
+      "dst": 1,
+      "weight": 0.1538,
+      "kind": "temporal"
+    },
+    {
+      "src": 1,
+      "dst": 6,
+      "weight": 0.0769,
+      "kind": "temporal"
+    },
+    {
+      "src": 6,
+      "dst": 0,
+      "weight": 0.0769,
+      "kind": "temporal"
+    },
+    {
+      "src": 1,
+      "dst": 2,
+      "weight": 0.0769,
+      "kind": "temporal"
+    }
+  ],
+  "chord_sequence": [
+    "E:maj",
+    "C#:min",
+    "E:maj",
+    "B:min",
+    "C#:min",
+    "B:maj",
+    "G#:min",
+    "E:min",
+    "E:maj",
+    "A:maj",
+    "A:min",
+    "E:maj",
+    "A:maj",
+    "B:maj"
+  ]
+}

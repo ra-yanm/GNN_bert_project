@@ -1,0 +1,92 @@
+{
+  "track_id": "reggae.00034",
+  "graph_kind": "chord",
+  "num_nodes": 5,
+  "num_edges": 7,
+  "node_feature_dim": 40,
+  "label": 8,
+  "nodes": [
+    {
+      "id": 0,
+      "chord": "C:maj",
+      "feat_norm": 12.6033
+    },
+    {
+      "id": 1,
+      "chord": "G#:maj",
+      "feat_norm": 13.63
+    },
+    {
+      "id": 2,
+      "chord": "C:min",
+      "feat_norm": 12.1147
+    },
+    {
+      "id": 3,
+      "chord": "F:min",
+      "feat_norm": 14.1085
+    },
+    {
+      "id": 4,
+      "chord": "A:min",
+      "feat_norm": 12.6067
+    }
+  ],
+  "edges": [
+    {
+      "src": 1,
+      "dst": 3,
+      "weight": 0.3,
+      "kind": "temporal"
+    },
+    {
+      "src": 3,
+      "dst": 0,
+      "weight": 0.2,
+      "kind": "temporal"
+    },
+    {
+      "src": 0,
+      "dst": 4,
+      "weight": 0.1,
+      "kind": "temporal"
+    },
+    {
+      "src": 4,
+      "dst": 1,
+      "weight": 0.1,
+      "kind": "temporal"
+    },
+    {
+      "src": 0,
+      "dst": 2,
+      "weight": 0.1,
+      "kind": "temporal"
+    },
+    {
+      "src": 2,
+      "dst": 1,
+      "weight": 0.1,
+      "kind": "temporal"
+    },
+    {
+      "src": 3,
+      "dst": 2,
+      "weight": 0.1,
+      "kind": "temporal"
+    }
+  ],
+  "chord_sequence": [
+    "G#:maj",
+    "F:min",
+    "C:maj",
+    "A:min",
+    "G#:maj",
+    "F:min",
+    "C:maj",
+    "C:min",
+    "G#:maj",
+    "F:min",
+    "C:min"
+  ]
+}

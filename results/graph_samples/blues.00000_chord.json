@@ -1,0 +1,132 @@
+{
+  "track_id": "blues.00000",
+  "graph_kind": "chord",
+  "num_nodes": 6,
+  "num_edges": 12,
+  "node_feature_dim": 40,
+  "label": 0,
+  "nodes": [
+    {
+      "id": 0,
+      "chord": "C:maj",
+      "feat_norm": 12.9815
+    },
+    {
+      "id": 1,
+      "chord": "F:maj",
+      "feat_norm": 12.5839
+    },
+    {
+      "id": 2,
+      "chord": "G:maj",
+      "feat_norm": 12.9794
+    },
+    {
+      "id": 3,
+      "chord": "E:min",
+      "feat_norm": 12.4398
+    },
+    {
+      "id": 4,
+      "chord": "F#:min",
+      "feat_norm": 12.1512
+    },
+    {
+      "id": 5,
+      "chord": "G:min",
+      "feat_norm": 12.1141
+    }
+  ],
+  "edges": [
+    {
+      "src": 1,
+      "dst": 3,
+      "weight": 0.0667,
+      "kind": "temporal"
+    },
+    {
+      "src": 3,
+      "dst": 2,
+      "weight": 0.1333,
+      "kind": "temporal"
+    },
+    {
+      "src": 2,
+      "dst": 0,
+      "weight": 0.1333,
+      "kind": "temporal"
+    },
+    {
+      "src": 0,
+      "dst": 4,
+      "weight": 0.0667,
+      "kind": "temporal"
+    },
+    {
+      "src": 4,
+      "dst": 0,
+      "weight": 0.0667,
+      "kind": "temporal"
+    },
+    {
+      "src": 0,
+      "dst": 5,
+      "weight": 0.0667,
+      "kind": "temporal"
+    },
+    {
+      "src": 5,
+      "dst": 2,
+      "weight": 0.1333,
+      "kind": "temporal"
+    },
+    {
+      "src": 2,
+      "dst": 3,
+      "weight": 0.0667,
+      "kind": "temporal"
+    },
+    {
+      "src": 2,
+      "dst": 5,
+      "weight": 0.0667,
+      "kind": "temporal"
+    },
+    {
+      "src": 0,
+      "dst": 1,
+      "weight": 0.0667,
+      "kind": "temporal"
+    },
+    {
+      "src": 1,
+      "dst": 0,
+      "weight": 0.0667,
+      "kind": "temporal"
+    },
+    {
+      "src": 0,
+      "dst": 3,
+      "weight": 0.0667,
+      "kind": "temporal"
+    }
+  ],
+  "chord_sequence": [
+    "F:maj",
+    "E:min",
+    "G:maj",
+    "C:maj",
+    "F#:min",
+    "C:maj",
+    "G:min",
+    "G:maj",
+    "E:min",
+    "G:maj",
+    "G:min",
+    "G:maj",
+    "C:maj",
+    "F:maj",
+    "C:maj",
+    "E:min"
+  ]
+}

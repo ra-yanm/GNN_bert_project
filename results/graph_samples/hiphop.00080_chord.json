@@ -1,0 +1,121 @@
+{
+  "track_id": "hiphop.00080",
+  "graph_kind": "chord",
+  "num_nodes": 7,
+  "num_edges": 10,
+  "node_feature_dim": 40,
+  "label": 4,
+  "nodes": [
+    {
+      "id": 0,
+      "chord": "E:maj",
+      "feat_norm": 14.0533
+    },
+    {
+      "id": 1,
+      "chord": "F#:maj",
+      "feat_norm": 12.8559
+    },
+    {
+      "id": 2,
+      "chord": "F#:min",
+      "feat_norm": 12.5455
+    },
+    {
+      "id": 3,
+      "chord": "G:min",
+      "feat_norm": 11.7723
+    },
+    {
+      "id": 4,
+      "chord": "G#:min",
+      "feat_norm": 13.0724
+    },
+    {
+      "id": 5,
+      "chord": "A:min",
+      "feat_norm": 13.2153
+    },
+    {
+      "id": 6,
+      "chord": "N",
+      "feat_norm": 13.2386
+    }
+  ],
+  "edges": [
+    {
+      "src": 0,
+      "dst": 1,
+      "weight": 0.0909,
+      "kind": "temporal"
+    },
+    {
+      "src": 1,
+      "dst": 0,
+      "weight": 0.0909,
+      "kind": "temporal"
+    },
+    {
+      "src": 0,
+      "dst": 6,
+      "weight": 0.1818,
+      "kind": "temporal"
+    },
+    {
+      "src": 6,
+      "dst": 2,
+      "weight": 0.0909,
+      "kind": "temporal"
+    },
+    {
+      "src": 2,
+      "dst": 4,
+      "weight": 0.0909,
+      "kind": "temporal"
+    },
+    {
+      "src": 4,
+      "dst": 3,
+      "weight": 0.0909,
+      "kind": "temporal"
+    },
+    {
+      "src": 3,
+      "dst": 6,
+      "weight": 0.0909,
+      "kind": "temporal"
+    },
+    {
+      "src": 6,
+      "dst": 0,
+      "weight": 0.0909,
+      "kind": "temporal"
+    },
+    {
+      "src": 6,
+      "dst": 5,
+      "weight": 0.0909,
+      "kind": "temporal"
+    },
+    {
+      "src": 5,
+      "dst": 4,
+      "weight": 0.0909,
+      "kind": "temporal"
+    }
+  ],
+  "chord_sequence": [
+    "E:maj",
+    "F#:maj",
+    "E:maj",
+    "N",
+    "F#:min",
+    "G#:min",
+    "G:min",
+    "N",
+    "E:maj",
+    "N",
+    "A:min",
+    "G#:min"
+  ]
+}
