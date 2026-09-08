@@ -113,7 +113,7 @@ python scripts/evaluate.py
 python scripts/corpus_stats.py
 ```
 
-Then regenerate the report — see [`report/README.md`](report/README.md).
+
 
 `--task` takes `1`–`4` to run one task; `--quick` runs a smoke test with the
 fewest models and epochs. `scripts/calibrate_tau.py` reproduces the
