@@ -1,0 +1,252 @@
+[
+  {
+    "query_caption": "This is a gear showcase jam recording. The only instrument being played is an electric guitar with heavy distortion. There is a hard-hitting guitar solo. The sound is crunchy. There is a raw atmosphere to this recording. This piece could be used in advertisements as a jingle. It could also be sampled to be used in beat-making.",
+    "query_ytid": "FLFmcZiRuzU",
+    "correct_rank_of_audio": 7,
+    "top3_retrieved": [
+      {
+        "ytid": "40vmsGsFBsw",
+        "score": 0.5784,
+        "is_correct": false,
+        "its_caption": "The song is an instrumental. The song is medium tempo with a string section accompaniment, timpani playing and other percussion instruments. There are other fun"
+      },
+      {
+        "ytid": "2_kLD3IbF2c",
+        "score": 0.5656,
+        "is_correct": false,
+        "its_caption": "This song contains background noises such as a goat sound, wind blowing and very low horns blowing one note. Then the music comes in with a string section playi"
+      },
+      {
+        "ytid": "ADPSmeFofpo",
+        "score": 0.5453,
+        "is_correct": false,
+        "its_caption": "This music is an electronic instrumental. The tempo is fast with atmospheric synthesisers playing an intense harmony with boomy keyboard feedback. There is no o"
+      }
+    ]
+  },
+  {
+    "query_caption": "This is an amateur recording of a live beatboxing performance. The beatbox is being performed initially slowly and then at a fast tempo. The recording is a bit dated, so the quality is quite low. The sounds from the setting of the recording such as the crowd cheering for the performer can be heard. Parts of this recording can be lifted as samples to be used in beat-making.",
+    "query_ytid": "78S8DnvLQDY",
+    "correct_rank_of_audio": 37,
+    "top3_retrieved": [
+      {
+        "ytid": "1cqcTbDxsHM",
+        "score": 0.7205,
+        "is_correct": false,
+        "its_caption": "The low quality recording features a pulsating theremin synth lead and haunting synth lead playing in the background. It sounds low, analog, spooky and spacey, "
+      },
+      {
+        "ytid": "3VTinB14Pmw",
+        "score": 0.6839,
+        "is_correct": false,
+        "its_caption": "The low quality recording features an ambient scraping synth lead playing. It sounds muddy, muffled, but also spacey and the recording is noisy and in mono."
+      },
+      {
+        "ytid": "6ragcEJVErI",
+        "score": 0.6634,
+        "is_correct": false,
+        "its_caption": "A male vocalist sings this energetic song. The tempo is fast with a spirited piano accompaniment and ambient street noises like vehicles, people talking and bre"
+      }
+    ]
+  },
+  {
+    "query_caption": "The low quality recording features a classical live performance of sustained violin melody, shimmering hi hats, electric guitar melody, theremin solo melody and subtle female vocals at the end of the loop. There are some crowd clapping sounds in the background. It is noisy, in mono and it sounds passionate and emotional.",
+    "query_ytid": "-WvVG0wHcTc",
+    "correct_rank_of_audio": 42,
+    "top3_retrieved": [
+      {
+        "ytid": "B90BOtSOD2Q",
+        "score": 0.5183,
+        "is_correct": false,
+        "its_caption": "A female singer sings this bluesy melody. The song is medium tempo with minimal guitar accompaniment and no other instrumentation. The song's medium tempo is ve"
+      },
+      {
+        "ytid": "FsnRM2irjvI",
+        "score": 0.4972,
+        "is_correct": false,
+        "its_caption": "The low quality recording features a live performance of an alternative/indie song and it consists of flat female vocal singing over synth keys and arpeggiated "
+      },
+      {
+        "ytid": "CEJXvm2vH_4",
+        "score": 0.4858,
+        "is_correct": false,
+        "its_caption": "This is instrumental Chinese music. The main melody is played by dizi, a Chinese flute. Qin (a Chinese xylophone) is played with syncopation while at the same t"
+      }
+    ]
+  },
+  {
+    "query_caption": "The low quality recording features a reverberant, intimate female vocal singing over soft, arpeggiated piano melody. It sounds haunting, hypnotic, heartfelt and muddy, as the frequencies are clashing and creating a mess in the mix. It sounds like a lullaby.",
+    "query_ytid": "9DCJTAzUwNc",
+    "correct_rank_of_audio": 63,
+    "top3_retrieved": [
+      {
+        "ytid": "3R8xDvhJk54",
+        "score": 0.5452,
+        "is_correct": false,
+        "its_caption": "The low quality recording features a tutorial on how to tune an acoustic guitar, string by string. The recording is very noisy."
+      },
+      {
+        "ytid": "BsnjK6DypAg",
+        "score": 0.4663,
+        "is_correct": false,
+        "its_caption": "Someone is playing a didgeridoo while using his voice to create overtones and using circular breathing for a continuous tone. This may be playing at home, getti"
+      },
+      {
+        "ytid": "9ZWmZdgrE78",
+        "score": 0.4449,
+        "is_correct": false,
+        "its_caption": "The low quality video features a cover of a kids song and it consists of a sweet girl vocal singing over acoustic rhythm guitar. The recording is in mono, noisy"
+      }
+    ]
+  },
+  {
+    "query_caption": "The song is an instrumental. The song is medium tempo with a walking bass line, steady drumming rhythm with cymbal crashes, guitar strumming rhythm and an accordion playing melody. The song is background music for a toy hobbyist video. The song is cheerful and reminiscent of a childhood adventure.",
+    "query_ytid": "BsLFQV8HVZE",
+    "correct_rank_of_audio": 130,
+    "top3_retrieved": [
+      {
+        "ytid": "2bCuw7U_Rac",
+        "score": 0.6209,
+        "is_correct": false,
+        "its_caption": "This low quality recording features a male voice singing the main melody in a foreign language. This is accompanied by percussion playing a simple beat with a L"
+      },
+      {
+        "ytid": "EZAwPnGOJPE",
+        "score": 0.5574,
+        "is_correct": false,
+        "its_caption": "The low quality recording features a Northern Soul song sung by passionate female vocalists and background harmonizing female vocals over punchy snare, groovy b"
+      },
+      {
+        "ytid": "4Bc9OoagYmo",
+        "score": 0.5384,
+        "is_correct": false,
+        "its_caption": "The song has a laid-back, unfussy feel to it. There are various instruments layered to form a smooth, groovy, yet mellow song. The song would be categorized as "
+      }
+    ]
+  },
+  {
+    "query_caption": "The low quality recording features a reggae song sung by low flat male vocals, followed by repetitive synth lead melody, groovy bass, vocal chants, claps, punchy kick hits, shimmering hi hats and open hats. It sounds energetic, suspenseful and it is in mono. At one point the vocal cracks and it sounds out of tune for a split second.",
+    "query_ytid": "AcX1B_Pr-RQ",
+    "correct_rank_of_audio": 277,
+    "top3_retrieved": [
+      {
+        "ytid": "0F-Z0zF1504",
+        "score": 0.584,
+        "is_correct": false,
+        "its_caption": "A male vocalist sings this soft Korean Melody. The tempo is medium with a romantic piano accompaniment, steady drumming, simple bass lines, chimes, synthesiser "
+      },
+      {
+        "ytid": "33dCbb1MyYU",
+        "score": 0.556,
+        "is_correct": false,
+        "its_caption": "A female vocalist sings this spirited pop. The tempo is fast with a spirited, upbeat acoustic guitar accompaniment, synthesiser arrangements, slick drumming, di"
+      },
+      {
+        "ytid": "-taO6N-rxv4",
+        "score": 0.5399,
+        "is_correct": false,
+        "its_caption": "This is a rock music piece playing in the background of a tutorial video. There is an electric guitar playing a simple tune as the lead while another provides a"
+      }
+    ]
+  },
+  {
+    "query_caption": "A male vocalist sings this sweet melody in a foreign language. The tempo is medium with keyboard accompaniment, steady drumming, synthesiser arrangement and acoustic guitar. The song has a simple, easy melody. It is earnest, emotional, calm and soothing. This song is a Regional Pop song.",
+    "query_ytid": "D3FyfFIKLVc",
+    "correct_rank_of_audio": 246,
+    "top3_retrieved": [
+      {
+        "ytid": "AnErEDywInE",
+        "score": 0.6758,
+        "is_correct": false,
+        "its_caption": "This song contains a brass section playing a melody and a string section taking over with a melody. A harp is playing a melody in the background along with pluc"
+      },
+      {
+        "ytid": "-U16iKiXGuY",
+        "score": 0.5999,
+        "is_correct": false,
+        "its_caption": "The low quality recording features a live performance of a R&B song that consists of a mellow piano melody and an emotional female vocal singing over it. There "
+      },
+      {
+        "ytid": "5XXAeSybGK0",
+        "score": 0.5963,
+        "is_correct": false,
+        "its_caption": "The low quality recording features a cover of a song sung by passionate girl vocalists over acoustic guitar melody and smooth bass. The recording is very noisy "
+      }
+    ]
+  },
+  {
+    "query_caption": "The song is an instrumental. The tempo is medium with a heavily doctored guitar playing lead with strong rock drumming. The song is highly distorted with hissing and crackling audio. The audio quality is very poor and the song is a tv show tune.",
+    "query_ytid": "Fa1KdG8niq0",
+    "correct_rank_of_audio": 223,
+    "top3_retrieved": [
+      {
+        "ytid": "Ac4M-EkdkDs",
+        "score": 0.4943,
+        "is_correct": false,
+        "its_caption": "The Trap song features a very short snippet of hard 808 bass, shimmering hi hats, punchy snare and synth keys melody after which comes the second part of the lo"
+      },
+      {
+        "ytid": "B3q2wHpzhoM",
+        "score": 0.4902,
+        "is_correct": false,
+        "its_caption": "This composition contains a string section playing a rising and dissonant chord along with strings playing short notes. In the background you can hear atmospher"
+      },
+      {
+        "ytid": "-SWaCArvQug",
+        "score": 0.4871,
+        "is_correct": false,
+        "its_caption": "Ambient sound still in the room with a mild background music playing.  A male singer sings a passionate melody with subtle background music. The audio quality i"
+      }
+    ]
+  },
+  {
+    "query_caption": "This song is an instrumental. The tempo is medium with simple keyboard harmony, melodious guitar rhythm with the sound of a bell, waves and fingers snapping which could be a friction of fingers against the strings.The song is soft, melodic, pleasant, simple, calming and peaceful.",
+    "query_ytid": "DhnNZn8JjEQ",
+    "correct_rank_of_audio": 514,
+    "top3_retrieved": [
+      {
+        "ytid": "AJeRSlZuZbk",
+        "score": 0.625,
+        "is_correct": false,
+        "its_caption": "This is a Kumaoni music piece. There is a male vocalist singing while playing a bina instrument at the same time. Both the vocal and the bina melody have a lot "
+      },
+      {
+        "ytid": "D712KM8PE3I",
+        "score": 0.5977,
+        "is_correct": false,
+        "its_caption": "This song features female voices singing in harmony. There are no instruments in this song. The voices are relaxing. The song starts with vocables and then the "
+      },
+      {
+        "ytid": "2MpzHv5KNZU",
+        "score": 0.5867,
+        "is_correct": false,
+        "its_caption": "This is an instrumental classical music performance. There is a gentle tune being played with the piano sound. Ambient sounds such as birds singing can be heard"
+      }
+    ]
+  },
+  {
+    "query_caption": "The low quality recording features a traditional, medieval song sung by reverberant low male vocals and followed by acoustic rhythm guitar. It is a bit noisy and it sounds traditional.",
+    "query_ytid": "81SgTHg66QY",
+    "correct_rank_of_audio": 712,
+    "top3_retrieved": [
+      {
+        "ytid": "C3o8pEsAu5U",
+        "score": 0.4863,
+        "is_correct": false,
+        "its_caption": "An acoustic drum is strumming chords while a percussion instrument is playing a bass sound along with an e-bass. A male choir is singing in the background while"
+      },
+      {
+        "ytid": "FsnRM2irjvI",
+        "score": 0.4831,
+        "is_correct": false,
+        "its_caption": "The low quality recording features a live performance of an alternative/indie song and it consists of flat female vocal singing over synth keys and arpeggiated "
+      },
+      {
+        "ytid": "2OI4QeokeRQ",
+        "score": 0.4652,
+        "is_correct": false,
+        "its_caption": "This is a country music piece. There is a female vocalist singing melodically as the lead at a medium-to-high range. A mandolin is playing the main theme while "
+      }
+    ]
+  }
+]

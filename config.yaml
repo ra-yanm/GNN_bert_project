@@ -1,0 +1,208 @@
+# =============================================================================
+# GNN-BERT Music Context Understanding -- central configuration
+# CSE425 Neural Networks project. All four tasks read from this file.
+#
+# Every run writes the resolved config into results/ alongside its metrics so
+# that any number in the report can be traced back to the exact settings.
+# =============================================================================
+
+seed: 425                       # fixed everywhere (numpy, torch, python random)
+device: cpu                     # no CUDA on the build machine; "cuda" also works
+num_workers: 0                  # Windows + spawn: 0 is fastest for small tensors
+
+paths:
+  raw: data/raw
+  processed: data/processed
+  splits: data/splits
+  results: results
+  plots: results/plots
+  graph_samples: results/graph_samples
+  retrieval_examples: results/retrieval_examples
+
+# -----------------------------------------------------------------------------
+# Audio front end (spec section 3: "Preprocessing pipeline")
+# -----------------------------------------------------------------------------
+audio:
+  sample_rate: 22050            # spec: resample to 22,050 Hz
+  n_fft: 2048
+  hop_length: 512
+  n_mels: 128                   # spec: log-mel with 128 bins
+  n_chroma: 12                  # spec: chroma with 12 bins
+  n_mfcc: 20
+  fmin: 20
+  fmax: 11025
+  normalize: per_track          # spec: "normalize per track"
+  clip_seconds: 30.0            # GTZAN clips are 30 s; DEAM excerpts are 45 s
+  mono: true
+
+# -----------------------------------------------------------------------------
+# Segmentation + graph construction (spec section 3.3)
+# -----------------------------------------------------------------------------
+graph:
+  segment_mode: fixed           # "fixed" | "beat"  (beat = beat-synchronous)
+  segment_seconds: 3.0          # fixed-window length; spec suggests 5-10 s but
+                                # 30 s GTZAN clips need shorter windows to give
+                                # a graph with enough nodes to message-pass over
+  segment_hop_seconds: 1.5      # 50% overlap -> ~19 nodes per 30 s clip
+  min_nodes: 4
+  max_nodes: 64
+  # Segment graph: temporal adjacency + cosine similarity above threshold
+  temporal_edges: true
+  temporal_window: 1            # connect node i to i+1 .. i+temporal_window
+  similarity_metric: cosine
+  # tau in the spec's "cosine similarity > tau".
+  # CALIBRATED, not guessed, and the numbers below are read back from
+  # results/tau_calibration.json rather than remembered. Over 2,720 non-adjacent
+  # segment pairs from 20 GTZAN tracks (2 per genre) the cosine distribution is:
+  # p25=0.716, p50=0.850, p90=0.961, p99=0.989. Segments of one song are
+  # intrinsically alike, so the intuitive tau=0.85 admits 50.1% of ALL pairs --
+  # the graph becomes near-complete (density 0.267) and message passing
+  # degenerates toward mean pooling, which would make the GNN indistinguishable
+  # from the FeatureMLP baseline. tau=0.95 admits 14.6% (density 0.175, average
+  # degree 2.98), keeping only genuinely repeated material (choruses, restated
+  # themes) while temporal edges keep the graph connected.
+  # Reproduce with: python scripts/calibrate_tau.py
+  similarity_threshold: 0.95
+  similarity_topk: 4            # cap similarity edges per node (keeps graphs sparse)
+  self_loops: false             # PyG convs add these internally where needed
+  undirected: true
+  node_features: [mel_stats, chroma_stats, mfcc_stats]  # concatenated per segment
+  # Chord-transition graph (spec section 3.3, first bullet)
+  chord:
+    enabled: true
+    template_set: majmin        # 24 triads + N (no-chord) = 25 node vocabulary
+    min_frames_per_chord: 2     # ignore 1-frame flickers when reading transitions
+    weight_by_count: true       # spec: "edges = observed transitions weighted by count"
+  # Per-dataset segmentation overrides. Clip length varies a lot across corpora
+  # and a fixed window gives wildly different node counts: the default 3.0s/1.5s
+  # yields ~18 nodes on a 30 s GTZAN clip but only 5 on a 10 s MusicCaps clip,
+  # which is too thin for 3 rounds of message passing to do anything. Node feature
+  # dimensionality is unaffected (features are per-segment statistics), so graphs
+  # from different corpora remain mutually compatible.
+  dataset_overrides:
+    musiccaps:                  # 10 s clips -> 12 nodes
+      segment_seconds: 1.5
+      segment_hop_seconds: 0.75
+
+# -----------------------------------------------------------------------------
+# Text encoder (spec section 4.1)
+# -----------------------------------------------------------------------------
+text:
+  model_name: distilbert-base-uncased   # spec allows bert-base or distilbert;
+                                        # distilbert is 6 layers -> ~2x faster on CPU
+  max_length: 192               # spec: 128-256. MusicCaps captions are short.
+  freeze_bert: false            # Task 1/3 fine-tune; contrastive freezes lower layers
+  freeze_first_n_layers: 0
+  pooling: cls                  # spec uses the CLS vector as t
+
+# -----------------------------------------------------------------------------
+# Model dimensions
+# -----------------------------------------------------------------------------
+model:
+  gnn:
+    conv: sage                  # "sage" (GraphSAGE) | "gat" (GAT)
+    hidden_dim: 256
+    num_layers: 3               # L in the spec's h^(l+1) update
+    dropout: 0.3
+    readout: mean               # spec: g = (1/|V|) sum_i h_i
+    gat_heads: 4
+    batch_norm: true
+  fusion:
+    mode: cross_attention       # cross_attention | concat | gated | bert_only | gnn_only
+    proj_dim: 256               # shared d for Q/K/V projections
+    attn_heads: 4
+    dropout: 0.2
+  cnn_baseline:                 # spec baseline B2: CNN on mel-spectrogram
+    channels: [32, 64, 128, 256]
+    kernel_size: 3
+    dropout: 0.3
+
+# -----------------------------------------------------------------------------
+# Per-task training. Batch sizes / epochs are tuned for a 12-thread CPU box.
+# -----------------------------------------------------------------------------
+train:
+  task1_bert:
+    dataset: musiccaps          # caption -> tag proxy task (spec section 4.1)
+    num_tags: 50                # top-K tags mined from MusicCaps aspect_list
+    epochs: 6
+    batch_size: 16
+    lr_head: 1.0e-3
+    lr_bert: 2.0e-5             # discriminative LR: head learns faster than encoder
+    weight_decay: 0.01
+    warmup_ratio: 0.1
+    max_grad_norm: 1.0
+    threshold: 0.3              # decision threshold for F1; also tuned on val
+    tune_threshold: true
+  task2_gnn:
+    dataset: gtzan              # 10-genre single-label classification
+    epochs: 60
+    batch_size: 32
+    lr: 1.0e-3
+    weight_decay: 5.0e-4
+    scheduler: cosine
+    patience: 15                # early stopping on val macro-F1
+  task3_fusion:
+    dataset: gtzan_captioned    # audio graphs + text side, multi-label context
+    # MEASURED, not guessed: averaged over the 6 epochs actually run, one
+    # cross_attention epoch over the 1,852 training rows costs 3m56s on this
+    # 12-thread CPU box, and the ablation list trains four separate models. The
+    # first epoch is the slow one (6m35s, feature cache cold), so sizing the budget
+    # off it overstates the total. 30 epochs x 4 modes would be ~8 h; 6 epochs x 4
+    # measured 1h13m of training, which is what the build budget allows. The
+    # learning curves in results/plots/task3_curves.png show whether 6 was enough --
+    # if val loss is still falling at the last epoch, the reported numbers are a
+    # lower bound and the report says so rather than pretending the models
+    # converged.
+    epochs: 6
+    batch_size: 16
+    lr_head: 1.0e-3
+    lr_bert: 2.0e-5
+    weight_decay: 0.01
+    alpha_valence: 0.5          # alpha in L = L_tags + alpha*||v-v_hat||^2 + beta*||a-a_hat||^2
+    beta_arousal: 0.5
+    patience: 3                 # only 6 epochs to work with, so a short fuse
+    ablations: [bert_only, gnn_only, concat, cross_attention]
+  task4_contrastive:
+    dataset: musiccaps_paired
+    # 2m48s/epoch measured over 591 pairs; 30 epochs is ~1h25m. Note the real
+    # constraint here is not epochs but pairs: only 591 of MusicCaps' 5,521 clips
+    # survived audio recovery, and InfoNCE is the most data-hungry objective in
+    # the project.
+    epochs: 30
+    batch_size: 32              # N in the InfoNCE denominator -- larger is better
+    lr: 3.0e-4
+    temperature: 0.07           # tau in exp(sim/tau)
+    learnable_temperature: true
+    symmetric: true             # spec's L_NCE is one-directional (g->t) but the
+                                # metrics ask for both R@K directions, so we use
+                                # the symmetric CLIP-style average of both
+    recall_at: [1, 5, 10]
+
+# -----------------------------------------------------------------------------
+# Dataset splits. Grouped so that no artist/song appears on both sides.
+# -----------------------------------------------------------------------------
+splits:
+  train: 0.70
+  val: 0.15
+  test: 0.15
+  group_by: song                # GTZAN: group by genre-index prefix; MTAT: folder
+  stratify: true
+
+# -----------------------------------------------------------------------------
+# Evaluation (spec section 6)
+# -----------------------------------------------------------------------------
+eval:
+  metrics: [macro_f1, micro_f1, auc_pr, mae, r2]
+  tsne:
+    perplexity: 30
+    n_iter: 1000
+    metric: cosine
+  graph_coherence_tau: 0.9      # tau in the S_graph optional analysis. The spec
+                                # leaves tau unspecified; 0.5 saturates (post-ReLU
+                                # node states are near-collinear, so even random
+                                # pairs score 0.96). evaluate.py sweeps tau and
+                                # reports the lift over the random-pair control;
+                                # 0.9 is where the two separate most on GTZAN.
+  num_case_studies: 3           # spec Task 3: "3 case studies"
+  num_retrieval_examples: 10    # spec Task 4: "10 qualitative retrieval examples"
+  num_exported_graphs: 24       # spec section 10: "at least 20 example .pt/.json graphs"

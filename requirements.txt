@@ -1,0 +1,45 @@
+# GNN-BERT Music Context Understanding -- direct dependencies
+# CSE425 Neural Networks project
+#
+# Install (CPU-only, as used for the reported results):
+#   python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+#   pip install -r requirements.txt
+#
+# For the exact resolved environment behind results/metrics.json, see
+# requirements.lock.txt.
+#
+# NOTE for Windows users: pip can fail with "WinError 206 filename or extension
+# is too long" when installing torch into a deeply nested site-packages
+# directory (the Microsoft Store Python is ~150 chars deep on its own). Create
+# the virtualenv at a short path -- e.g. C:\v -- or enable Win32 long paths.
+
+torch>=2.6                # 2.13.0+cpu used for reported runs
+torch_geometric>=2.6      # GraphSAGE / GAT convs, Batch, global_mean_pool
+transformers>=4.44        # 5.15.1 used for reported runs
+librosa>=0.10             # mel / chroma / MFCC / beat tracking
+soundfile>=0.12           # audio IO backend for librosa
+numpy>=1.26
+scipy>=1.11
+pandas>=2.0
+scikit-learn>=1.3         # metrics (F1, average_precision), t-SNE, splits
+matplotlib>=3.7
+seaborn>=0.13
+PyYAML>=6.0
+tqdm>=4.66
+requests>=2.31
+
+# --- MusicCaps audio recovery: scripts/download_musiccaps_audio.py ---
+# Needed only to rebuild the MusicCaps corpus from YouTube IDs. Skip both if you
+# already have data/raw/musiccaps_audio/, or if you are only running Tasks 2 and 3.
+# PyAV ships its own ffmpeg libraries, which is why no system ffmpeg is required to
+# trim each clip to its [start_s, end_s] window.
+yt-dlp>=2024.1
+av>=12.0                  # 18.1.0 used here; bundles libavcodec
+
+# --- Notebook execution: tools/run_nb.py ---
+# Only needed to *execute* the two notebooks and commit their outputs. Reading them
+# on GitHub, or running the pipeline scripts, needs none of these.
+nbclient>=0.9
+nbformat>=5.9
+ipykernel>=6.29           # nbclient starts a kernel; it does not vendor one

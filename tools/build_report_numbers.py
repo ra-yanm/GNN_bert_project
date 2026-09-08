@@ -1,0 +1,543 @@
+"""Emit report/numbers.tex -- every scalar the report quotes, as a LaTeX macro.
+
+The point is that no number in report.tex is typed by hand. Each one is a macro
+defined here from results/metrics.json (and the MusicCaps download manifest), so
+the prose cannot drift away from the runs that produced it. If a task has not been
+trained, its macros expand to ``\\textbf{??}`` rather than to a stale value, which
+makes an unbacked claim visible in the rendered PDF instead of silent.
+
+    python tools/build_report_numbers.py
+"""
+
+from __future__ import annotations
+
+import json
+import math
+import pathlib
+import sys
+
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
+
+from src.utils import ROOT, load_config, load_metrics   # noqa: E402
+
+LINES: list[str] = []
+MISSING: list[str] = []
+
+# A LaTeX control sequence is a backslash followed by *letters only*. A name like
+# \t1SageAcc tokenises as \t followed by the characters "1SageAcc", so \newcommand
+# sees a multi-token first argument and the document fails to compile. Rather than
+# rely on remembering that at every call site, digits are spelled out here.
+_DIGITS = {"0": "Zero", "1": "One", "2": "Two", "3": "Three", "4": "Four",
+           "5": "Five", "6": "Six", "7": "Seven", "8": "Eight", "9": "Nine"}
+
+
+def tex_name(name: str) -> str:
+    out = "".join(_DIGITS.get(ch, ch) for ch in name)
+    bad = {ch for ch in out if not ch.isalpha()}
+    if bad:
+        raise ValueError(f"macro name {name!r} still has non-letters {sorted(bad)}")
+    return out
+
+
+def macro(name: str, value, fmt: str = "{:.4f}") -> None:
+    """Define \\<name>. Unavailable values become a visible ?? rather than a guess."""
+    name = tex_name(name)
+    if value is None or (isinstance(value, float) and value != value):
+        body = r"\textbf{??}"
+        MISSING.append(name)
+    elif isinstance(value, str):
+        body = value
+    elif isinstance(value, int):
+        body = f"{value:,}".replace(",", r"{,}")
+    else:
+        body = fmt.format(value)
+    LINES.append(rf"\newcommand{{\{name}}}{{{body}}}")
+
+
+def pct(name: str, value) -> None:
+    macro(name, value if value is None else 100 * value, "{:.1f}")
+
+
+def dig(d: dict | None, *path, default=None):
+    """Nested get that tolerates a missing task entirely."""
+    node = d
+    for p in path:
+        if not isinstance(node, dict) or p not in node:
+            return default
+        node = node[p]
+    return node
+
+
+def clock(name: str, seconds) -> None:
+    """Define \\<name> as a LaTeX-spaced wall-clock string, e.g. ``6\\,m\\,34\\,s``.
+
+    Durations are quoted in the report as prose rather than as decimals, so they
+    need their own formatter; passing the string through `macro` keeps them subject
+    to the same ?? rule as every other number.
+    """
+    if seconds is None or seconds != seconds:
+        macro(name, None)
+        return
+    s = int(round(float(seconds)))
+    h, rem = divmod(s, 3600)
+    m, sec = divmod(rem, 60)
+    if h:
+        body = rf"{h}\,h\,{m}\,m"
+    elif m:
+        body = rf"{m}\,m\,{sec}\,s"
+    else:
+        body = rf"{sec}\,s"
+    macro(name, body)
+
+
+def sci(name: str, value) -> None:
+    """Define \\<name> as LaTeX scientific notation, e.g. ``2\\times 10^{-5}``.
+
+    Learning rates are the one class of config value the report states in maths mode
+    rather than as a decimal. Without this they get typed into the prose as
+    ``$2\\!\\times\\!10^{-5}$``, which the literal-numeral guard cannot distinguish
+    from ordinary notation -- so a changed learning rate would leave the Method
+    section describing a run that never happened.
+    """
+    if value is None:
+        macro(name, None)
+        return
+    v = float(value)
+    exp = int(math.floor(math.log10(abs(v)))) if v else 0
+    mant = v / (10 ** exp)
+    lead = "" if abs(mant - 1.0) < 1e-9 else rf"{mant:g}\!\times\!"
+    macro(name, rf"{lead}10^{{{exp}}}")
+
+
+def run_seconds(entry: dict | None) -> float | None:
+    """Total wall-clock of a training run, from its per-epoch history.
+
+    ``elapsed_s`` is *cumulative* since the run started -- the history reads 435.2,
+    765.7, 1109.1, ... -- so the run total is the last entry, not the sum. Summing it
+    reports a 1 h 09 m run as 4 h 02 m.
+    """
+    hist = (entry or {}).get("history") or []
+    vals = [float(h["elapsed_s"]) for h in hist if isinstance(h, dict) and "elapsed_s" in h]
+    return max(vals) if vals else None
+
+
+def epoch_seconds(entry: dict | None) -> float | None:
+    """Mean cost of one epoch, from the same cumulative series."""
+    total = run_seconds(entry)
+    n = len([h for h in ((entry or {}).get("history") or []) if "elapsed_s" in h])
+    return None if (total is None or not n) else total / n
+
+
+def main() -> None:
+    cfg = load_config()
+    M = load_metrics(cfg)
+    out = ROOT / "report" / "numbers.tex"
+    out.parent.mkdir(parents=True, exist_ok=True)
+
+    LINES.append("% Auto-generated by tools/build_report_numbers.py -- do not edit.")
+    LINES.append("% Every scalar the report quotes is defined here, from results/metrics.json.")
+    LINES.append("")
+
+    # ---------------- config / setup ------------------------------------- #
+    LINES.append("% ---- configuration ----")
+    macro("cfgSeed", int(cfg["seed"]))
+    macro("cfgTau", float(cfg.dotted("graph.similarity_threshold")), "{:.2f}")
+    macro("cfgSegSec", float(cfg.dotted("graph.segment_seconds")), "{:.1f}")
+    macro("cfgHopSec", float(cfg.dotted("graph.segment_hop_seconds")), "{:.2f}")
+    macro("cfgLayers", int(cfg.dotted("model.gnn.num_layers")))
+    macro("cfgHidden", int(cfg.dotted("model.gnn.hidden_dim")))
+    macro("cfgSR", int(cfg.dotted("audio.sample_rate")))
+    macro("cfgMels", int(cfg.dotted("audio.n_mels")))
+    macro("cfgNumTags", int(cfg.dotted("train.task1_bert.num_tags")))
+    macro("cfgBertName", str(cfg.dotted("text.model_name")).replace("_", r"\_"))
+    macro("cfgAlpha", float(cfg.dotted("train.task3_fusion.alpha_valence")), "{:.1f}")
+    macro("cfgBeta", float(cfg.dotted("train.task3_fusion.beta_arousal")), "{:.1f}")
+    macro("cfgTemp", float(cfg.dotted("train.task4_contrastive.temperature")), "{:.2f}")
+    # Architecture and optimiser settings the Method section states in prose. Read
+    # from the config so a hyperparameter change cannot leave the report describing
+    # a model that was not the one trained.
+    macro("cfgProjDim", int(cfg.dotted("model.fusion.proj_dim")))
+    macro("cfgGnnDropout", float(cfg.dotted("model.gnn.dropout")), "{:.1f}")
+    macro("cfgWeightDecay", float(cfg.dotted("train.task1_bert.weight_decay")), "{:.2f}")
+    macro("cfgWeightDecayGnn", float(cfg.dotted("train.task2_gnn.weight_decay")), "{:.4f}")
+    # The discriminative learning rates and the warmup fraction, in the same maths
+    # notation the Method section uses. See sci() for why these are not literals.
+    sci("cfgLrBert", cfg.dotted("train.task1_bert.lr_bert"))
+    sci("cfgLrHead", cfg.dotted("train.task1_bert.lr_head"))
+    sci("cfgLrGnn", cfg.dotted("train.task2_gnn.lr"))
+    sci("cfgLrContrastive", cfg.dotted("train.task4_contrastive.lr"))
+    macro("cfgWarmupPct", int(round(100 * float(cfg.dotted("train.task1_bert.warmup_ratio")))))
+    macro("cfgGradClip", float(cfg.dotted("train.task1_bert.max_grad_norm")), "{:.1f}")
+    macro("cfgGatHeads", int(cfg.dotted("model.gnn.gat_heads")))
+    macro("cfgAttnHeads", int(cfg.dotted("model.fusion.attn_heads")))
+    macro("cfgFusionDropout", float(cfg.dotted("model.fusion.dropout")), "{:.1f}")
+    macro("cfgMaxLen", int(cfg.dotted("text.max_length")))
+    macro("cfgMinNodes", int(cfg.dotted("graph.min_nodes")))
+    macro("cfgMaxNodes", int(cfg.dotted("graph.max_nodes")))
+    macro("cfgTopK", int(cfg.dotted("graph.similarity_topk")))
+
+    # ---------------- data ----------------------------------------------- #
+    LINES.append("")
+    LINES.append("% ---- data ----")
+    mani = ROOT / "data" / "raw" / "musiccaps_audio" / "manifest.json"
+    if mani.exists():
+        mm = json.loads(mani.read_text(encoding="utf-8"))
+        macro("mcNominal", int(mm["nominal_clips"]))
+        macro("mcRecovered", int(mm["total_wav_on_disk"]))
+        pct("mcRecoveryPct", float(mm["recovery_rate_vs_nominal"]))
+        macro("mcMissing", int(mm["still_missing"]))
+        # The authoritative failure breakdown is the FIRST pass's own logged
+        # aggregate. `outstanding_failure_reasons` is not usable here: an earlier
+        # version of the download script overwrote the per-ID failure list, so that
+        # dict is a csv-minus-on-disk reconstruction in which ~3.8k entries carry
+        # the placeholder reason `unknown_reconstructed`. Quoting it would report
+        # 12 permanently-gone clips instead of the 231 actually observed.
+        passes = mm.get("passes") or []
+        first = next((p for p in passes if p.get("mode") == "full"), passes[0] if passes else {})
+        fr = first.get("failure_reasons", {})
+        gone = sum(fr.get(k, 0) for k in ("video_unavailable", "private_video", "geo_blocked"))
+        macro("mcPermanentlyGone", int(gone))
+        macro("mcBotCheck", int(fr.get("bot_check", 0)))
+        macro("mcUnavailable", int(fr.get("video_unavailable", 0)))
+        macro("mcPrivate", int(fr.get("private_video", 0)))
+        macro("mcGeoBlocked", int(fr.get("geo_blocked", 0)))
+        macro("mcOtherFail", int(sum(fr.get(k, 0) for k in ("other", "bad_audio_window", "network"))))
+        macro("mcDownloadHours", first.get("elapsed_seconds", 0) / 3600 or None, "{:.1f}")
+    else:
+        for n in ("mcNominal", "mcRecovered", "mcRecoveryPct", "mcMissing",
+                  "mcPermanentlyGone", "mcBotCheck", "mcUnavailable", "mcPrivate",
+                  "mcGeoBlocked", "mcOtherFail", "mcDownloadHours"):
+            macro(n, None)
+
+    for name, ds, kind in (("gtzan", "gtzan", "segment"), ("deam", "deam", "segment"),
+                           ("mc", "musiccaps", "segment"), ("chord", "gtzan", "chord")):
+        p = ROOT / cfg.dotted("paths.processed") / f"{ds}_{kind}_manifest.json"
+        if not p.exists():
+            macro(f"{name}Graphs", None)
+            continue
+        j = json.loads(p.read_text(encoding="utf-8"))
+        gs = j.get("graph_stats", {})
+        macro(f"{name}Graphs", int(j["num_graphs"]))
+        macro(f"{name}NodesMean", gs.get("nodes_mean"), "{:.1f}")
+        macro(f"{name}EdgesMean", gs.get("edges_mean"), "{:.1f}")
+        macro(f"{name}NodeDim", int(gs["node_feature_dim"]) if "node_feature_dim" in gs else None)
+        for s in ("train", "val", "test"):
+            macro(f"{name}N{s.capitalize()}", (j.get("splits") or {}).get(s))
+        # Resolution of the test set: what one track is worth. The limitations
+        # section uses this to say how small the GTZAN test split really is.
+        n_test = (j.get("splits") or {}).get("test")
+        macro(f"{name}OneTrackPct", None if not n_test else 100 / int(n_test), "{:.2f}")
+
+    # ---------------- corpus statistics ---------------------------------- #
+    # Everything the report says about a *corpus* rather than a model. These used to
+    # be typed into the prose, which is how the caption-leak figure came to be
+    # quoted as 4,684 / 93.8% when the matcher the pipeline uses gives 4,671 /
+    # 93.5%. scripts/corpus_stats.py measures them; nothing here is retyped.
+    LINES.append("")
+    LINES.append("% ---- corpus statistics (scripts/corpus_stats.py) ----")
+    cs_path = ROOT / "results" / "corpus_stats.json"
+    cs = json.loads(cs_path.read_text(encoding="utf-8")) if cs_path.exists() else {}
+    mc = cs.get("musiccaps") or {}
+    macro("mcAspectsDistinct", mc.get("distinct_aspects"))
+    macro("mcRowsKept", mc.get("rows_kept_top_k"))
+    macro("mcTagSupportMin", mc.get("tag_support_min"))
+    macro("mcTagSupportMax", mc.get("tag_support_max"))
+    macro("mcTagImbalance", mc.get("tag_support_imbalance"), "{:.1f}")
+    # Three nested readings of the same leak, weakest condition first. The report
+    # needs all three because they answer different questions: how often a
+    # vocabulary tag appears at all, how often string matching alone yields a true
+    # positive, and the ceiling once the top-K truncation is removed.
+    macro("mcLexAnyVocab", mc.get("captions_with_any_vocab_tag"))
+    pct("mcLexAnyVocabPct", mc.get("captions_with_any_vocab_tag_frac"))
+    macro("mcLexOwnTag", mc.get("captions_with_own_tag"))
+    pct("mcLexOwnTagPct", mc.get("captions_with_own_tag_frac"))
+    macro("mcLexEcho", mc.get("captions_echoing_any_own_aspect"))
+    pct("mcLexEchoPct", mc.get("captions_echoing_any_own_aspect_frac"))
+
+    gz = cs.get("gtzan") or {}
+    macro("gtzanPartitionTracks", gz.get("partition_file_tracks"))
+    macro("gtzanUsable", gz.get("usable_tracks"))
+
+    dm = cs.get("deam") or {}
+    macro("deamNRows", dm.get("n_rows"))
+    macro("deamCorr", dm.get("valence_arousal_corr"), "{:.2f}")
+
+    pp = cs.get("preprocessing") or {}
+    macro("prepFiles", pp.get("distinct_audio_files"))
+    macro("prepGraphs", pp.get("graphs_built"))
+    clock("prepWall", pp.get("elapsed_seconds"))
+
+    # ---------------- task 1 --------------------------------------------- #
+    LINES.append("")
+    LINES.append("% ---- task 1: caption -> tags ----")
+    t1 = M.get("task1", {})
+
+    def t1get(run, key):
+        e = t1.get(run) or {}
+        return dig(e, "test", key, default=e.get(key))
+
+    for run, tag in (("B0_lexical_caption", "LexRaw"), ("B0_lexical_caption_masked", "LexMask"),
+                     ("B1_random", "Rand"), ("B1_prior", "Prior"),
+                     ("task1_bert_naive", "BertRaw"), ("task1_bert_masked", "BertMask")):
+        macro(f"t1{tag}MacroF1", t1get(run, "macro_f1"))
+        macro(f"t1{tag}MicroF1", t1get(run, "micro_f1"))
+        macro(f"t1{tag}AucPR", t1get(run, "auc_pr"))
+    macro("t1MaskThr", dig(t1, "task1_bert_masked", "threshold_from_val"), "{:.3f}")
+    macro("t1MaskEpochs", dig(t1, "task1_bert_masked", "epochs_run"))
+    macro("t1NaiveEpochs", dig(t1, "task1_bert_naive", "epochs_run"))
+    macro("t1Params", dig(t1, "task1_bert_masked", "model", "params_trainable"))
+    # Same count in millions, for the prose that contrasts model size against a
+    # regular expression.
+    _p = dig(t1, "task1_bert_masked", "model", "params_trainable")
+    macro("t1ParamsM", None if _p is None else _p / 1e6, "{:.1f}")
+    # Task 1's cost is the two caption conditions together, which is what the
+    # compute-budget paragraph quotes.
+    both = [run_seconds(t1.get(r)) for r in ("task1_bert_naive", "task1_bert_masked")]
+    clock("t1Wall", sum(v for v in both if v) if any(both) else None)
+    # the shortcut, as one number: how much of the "text understanding" score a
+    # regex reproduces without any learning at all
+    raw, mask = t1get("task1_bert_naive", "macro_f1"), t1get("task1_bert_masked", "macro_f1")
+    macro("t1ShortcutGap", None if (raw is None or mask is None) else raw - mask)
+    # What fine-tuning buys over the regex on the *same* raw captions -- the number
+    # that makes the naive condition look much less impressive than it reads alone.
+    lex_raw = t1get("B0_lexical_caption", "macro_f1")
+    macro("t1BertOverLex", None if (raw is None or lex_raw is None) else raw - lex_raw, "{:.3f}")
+
+    # ---------------- task 2 --------------------------------------------- #
+    LINES.append("")
+    LINES.append("% ---- task 2: GNN genre classification ----")
+    t2 = M.get("task2", {})
+
+    def t2get(run, key):
+        e = t2.get(run) or {}
+        return dig(e, "test", key, default=e.get(key))
+
+    RUNS = {"gnn_sage_segment": "Sage", "gnn_gat_segment": "Gat",
+            "gnn_sage_chord": "Chord", "gnn_sage_temporal_only": "TempOnly",
+            "gnn_sage_similarity_only": "SimOnly", "gnn_sage_no_edges": "NoEdge",
+            "B1_majority": "Major", "B2_mel_cnn": "Cnn", "B4_feature_mlp": "Mlp"}
+    # B1 predicts the training-set mode; it has no weights at all. That is a real 0,
+    # not a missing measurement, so it must not render as ??.
+    FREE = {"B1_majority"}
+    for run, tag in RUNS.items():
+        macro(f"t2{tag}Acc", t2get(run, "accuracy"))
+        macro(f"t2{tag}MacroF1", t2get(run, "macro_f1"))
+        macro(f"t2{tag}Params", 0 if run in FREE else dig(t2, run, "model", "params_trainable"))
+    macro("t2SageEpochs", dig(t2, "gnn_sage_segment", "epochs_run"))
+    macro("t2SageBest", dig(t2, "gnn_sage_segment", "best_epoch"))
+    # The training schedule the report contrasts with Task 3's truncated one.
+    macro("t2MaxEpochs", int(cfg.dotted("train.task2_gnn.epochs", 60)))
+    macro("t2Patience", int(cfg.dotted("train.task2_gnn.patience", 15)))
+    # the two comparisons the report turns on
+    sim, full = t2get("gnn_sage_similarity_only", "macro_f1"), t2get("gnn_sage_segment", "macro_f1")
+    cnn = t2get("B2_mel_cnn", "macro_f1")
+    macro("t2SimOverFull", None if (sim is None or full is None) else sim - full)
+    macro("t2CnnOverBestGnn", None if (cnn is None or sim is None) else cnn - sim)
+    # The no-edge control's margin over the full graph. It is measured rather than
+    # asserted because it lands *below* the seed-noise band the report declines to
+    # read (0.02 macro-F1), so the finding it supports is "the graph buys nothing",
+    # not "no edges is better" -- a distinction the prose has to make explicitly.
+    noedge = t2get("gnn_sage_no_edges", "macro_f1")
+    macro("t2NoEdgeOverFull",
+          None if (noedge is None or full is None) else noedge - full)
+    best_gnn = max([v for v in (t2get(r, "macro_f1") for r in RUNS if r.startswith("gnn"))
+                    if v is not None], default=None)
+    macro("t2BestGnnMacroF1", best_gnn)
+
+    # graph coherence, from the analysis block evaluate.py writes
+    gc = dig(M, "analysis", "task2_analysis", "graph_coherence", default={}) or {}
+    best_tau = gc.get("most_discriminative_tau")
+    macro("gcBestTau", best_tau, "{:.3f}")
+    macro("gcConfiguredTau", float(cfg.dotted("eval.graph_coherence_tau")), "{:.2f}")
+    macro("gcNumTestGraphs", gc.get("num_test_graphs"))
+    sweep = gc.get("sweep") or {}
+    at = sweep.get(str(best_tau)) or sweep.get(repr(best_tau)) or {}
+    # The saturation point the report argues about is tau=0.5 specifically -- the
+    # value a literal reading of the spec's "cos > tau" suggests. Pinned here rather
+    # than read from gc["tau"], which tracks eval.graph_coherence_tau and would
+    # silently start pointing at 0.9 while the macro still claimed to be "low tau".
+    lo = sweep.get("0.5") or {}
+    macro("gcNaiveTau", 0.5, "{:.1f}")
+    macro("gcSGraphAtLowTau", lo.get("s_graph"))
+    macro("gcSRandomAtLowTau", lo.get("s_random"))
+    macro("gcSGraph", at.get("s_graph"))
+    macro("gcSRandom", at.get("s_random"))
+    macro("gcLift", at.get("lift_over_random"))
+    macro("gcTemporal", at.get("s_temporal"))
+    macro("gcSimilarity", at.get("s_similarity"))
+    macro("gcMeanEdgeCos", at.get("mean_edge_cos"))
+
+    # ---------------- task 3 --------------------------------------------- #
+    LINES.append("")
+    LINES.append("% ---- task 3: fusion ----")
+    t3 = M.get("task3", {})
+    for mode, tag in (("bert_only", "Bert"), ("gnn_only", "Gnn"),
+                      ("concat", "Cat"), ("cross_attention", "Xattn")):
+        e = t3.get(f"task3_{mode}") or {}
+        macro(f"t3{tag}MacroF1", dig(e, "test_tags", "macro_f1"))
+        macro(f"t3{tag}MicroF1", dig(e, "test_tags", "micro_f1"))
+        macro(f"t3{tag}AucPR", dig(e, "test_tags", "auc_pr"))
+        macro(f"t3{tag}MaeV", dig(e, "test_emotion", "mae_valence"), "{:.3f}")
+        macro(f"t3{tag}MaeA", dig(e, "test_emotion", "mae_arousal"), "{:.3f}")
+        macro(f"t3{tag}R2V", dig(e, "test_emotion", "r2_valence"), "{:.3f}")
+        macro(f"t3{tag}R2A", dig(e, "test_emotion", "r2_arousal"), "{:.3f}")
+        macro(f"t3{tag}PearsonV", dig(e, "test_emotion", "pearson_valence"), "{:.3f}")
+        macro(f"t3{tag}PearsonA", dig(e, "test_emotion", "pearson_arousal"), "{:.3f}")
+        macro(f"t3{tag}Params", dig(e, "model", "params_trainable"))
+        macro(f"t3{tag}Epochs", dig(e, "epochs_run"))
+    for s in ("train", "val", "test"):
+        macro(f"t3N{s.capitalize()}", dig(t3, "split_sizes", s, "n"))
+        macro(f"t3NTag{s.capitalize()}", dig(t3, "split_sizes", s, "n_tagged"))
+        macro(f"t3NEmo{s.capitalize()}", dig(t3, "split_sizes", s, "n_emotion"))
+    # DEAM mean-predictor MAE: the floor any regression must beat. Recomputed here
+    # rather than quoted from the notebook so the report and the notebook agree.
+    try:
+        from src.data_loading import load_deam
+        import numpy as np
+        d = load_deam(cfg)
+        tr, te = d[d.split == "train"], d[d.split == "test"]
+        macro("deamMaeVBase", float(np.abs(te["valence"] - tr["valence"].mean()).mean()), "{:.3f}")
+        macro("deamMaeABase", float(np.abs(te["arousal"] - tr["arousal"].mean()).mean()), "{:.3f}")
+    except Exception:                                                   # noqa: BLE001
+        macro("deamMaeVBase", None); macro("deamMaeABase", None)
+    xa, ca = (dig(t3, "task3_cross_attention", "test_tags", "macro_f1"),
+              dig(t3, "task3_concat", "test_tags", "macro_f1"))
+    macro("t3XattnOverCat", None if (xa is None or ca is None) else xa - ca)
+    # Where fusion actually pays, as opposed to where the report might wish it did.
+    # The tag column's fusion margin is inside the seed-noise band; the emotion
+    # column's is not. Both are measured so the prose can say which is which instead
+    # of asserting "fusion helps" and leaving the reader to check the table.
+    xa_bert = dig(t3, "task3_bert_only", "test_tags", "macro_f1")
+    macro("t3XattnOverBert", None if (xa is None or xa_bert is None) else xa - xa_bert)
+    for axis, kw in (("valence", "V"), ("arousal", "A")):
+        fused = dig(t3, "task3_cross_attention", "test_emotion", f"mae_{axis}")
+        singles = [dig(t3, f"task3_{m}", "test_emotion", f"mae_{axis}")
+                   for m in ("bert_only", "gnn_only")]
+        singles = [v for v in singles if v is not None]
+        # Lower MAE is better, so the best single modality is the minimum and the
+        # gain is (best single - fused).
+        macro(f"t3XattnMae{kw}OverSingle",
+              None if (fused is None or not singles) else min(singles) - fused)
+        macro(f"t3BestSingleMae{kw}", min(singles) if singles else None)
+    # The budget argument for why Task 3 reports bounds: the cost of one epoch of
+    # the most expensive fusion mode, and what training all four to convergence
+    # would have cost. The 30-epoch figure is a *counterfactual* -- the config runs
+    # 6 -- so the comparison point is named here and the report quotes the macro
+    # rather than restating 30 in the prose.
+    epoch_s = epoch_seconds(t3.get("task3_cross_attention"))
+    clock("t3EpochWall", epoch_s)
+    T3_MODES = ("bert_only", "gnn_only", "concat", "cross_attention")
+    macro("t3NModes", len(T3_MODES))
+    macro("t3RunEpochs", int(cfg.dotted("train.task3_fusion.epochs", 6)))
+    # What the four ablations actually cost together, for the budget paragraph.
+    t3_each = [run_seconds(t3.get(f"task3_{m}")) for m in T3_MODES]
+    clock("t3Wall", sum(v for v in t3_each if v) if any(t3_each) else None)
+    counterfactual = 30
+    macro("t3CfEpochs", counterfactual)
+    macro("t3CfBudgetHours",
+          None if epoch_s is None else epoch_s * counterfactual * len(T3_MODES) / 3600,
+          "{:.0f}")
+
+    # ---------------- task 4 --------------------------------------------- #
+    LINES.append("")
+    LINES.append("% ---- task 4: contrastive ----")
+    t4 = M.get("task4", {})
+    r, rc = t4.get("test_retrieval") or {}, t4.get("random_control_retrieval") or {}
+    n_cand = r.get("n_candidates")
+    macro("t4NCand", int(n_cand) if n_cand else None)
+    macro("t4NTrain", t4.get("n_train"))
+    # The batch-count arithmetic the discussion leans on. Read the batch size from
+    # the config rather than restating it, so a config change cannot leave the prose
+    # asserting a batch count that no longer follows from it.
+    t4bs = int(cfg.dotted("train.task4_contrastive.batch_size", 32))
+    macro("t4BatchSize", t4bs)
+    n_tr = t4.get("n_train")
+    macro("t4BatchesPerEpoch", None if not n_tr else int(n_tr) // t4bs)
+    # Spell K and the retrieval direction out: the digit sanitiser would otherwise
+    # turn R@10 g2t into \tFourRAtOneZeroGTwoT, which is unreadable in the prose.
+    for K, kw in ((1, "One"), (5, "Five"), (10, "Ten")):
+        macro(f"t4RAt{kw}", r.get(f"R@{K}"))
+        macro(f"t4RAt{kw}AudioText", r.get(f"R@{K}_g2t"))
+        macro(f"t4RAt{kw}TextAudio", r.get(f"R@{K}_t2g"))
+        macro(f"t4RAt{kw}Ctrl", rc.get(f"R@{K}"))
+        macro(f"t4RAt{kw}Chance", None if not n_cand else K / n_cand)
+    macro("t4MedrAudioText", r.get("medr_g2t"), "{:.0f}")
+    macro("t4MedrTextAudio", r.get("medr_t2g"), "{:.0f}")
+    macro("t4MedrChance", None if not n_cand else n_cand / 2, "{:.0f}")
+    macro("t4MrrAudioText", r.get("mrr_g2t"))
+    macro("t4Temp", t4.get("implied_temperature"), "{:.4f}")
+    macro("t4TempInit", float(cfg.dotted("train.task4_contrastive.temperature")), "{:.2f}")
+    macro("t4Epochs", t4.get("epochs_run"))
+    macro("t4BestEpoch", t4.get("best_epoch"))
+    macro("t4Params", dig(t4, "model", "params_trainable"))
+    macro("t4ZsMacroF1", dig(t4, "zero_shot_tagging", "macro_f1"))
+    macro("t4ZsAucPR", dig(t4, "zero_shot_tagging", "auc_pr"))
+    macro("t4ZsAucRoc", dig(t4, "zero_shot_tagging", "auc_roc"))
+    # Validation and test recall are not comparable as absolute numbers: the val pool
+    # is n_val candidates and the test pool is n_test, and R@K falls mechanically as
+    # the pool grows. Quoting both raw invites the reading that the model collapsed
+    # between the two. The lift over chance is the quantity that transfers, so it is
+    # measured here rather than left for a reader to divide.
+    n_val = t4.get("n_val")
+    macro("t4NVal", n_val)
+    hist = t4.get("history") or []
+    val_r10 = max((h.get("val_R10") for h in hist if h.get("val_R10") is not None),
+                  default=None)
+    macro("t4ValRAtTen", val_r10)
+    macro("t4ValRAtTenChance", None if not n_val else 10 / n_val)
+    macro("t4ValLiftTen",
+          None if not (n_val and val_r10) else val_r10 / (10 / n_val), "{:.1f}")
+    macro("t4TestLiftTen",
+          None if not (n_cand and r.get("R@10")) else r["R@10"] / (10 / n_cand), "{:.1f}")
+
+    # ---------------- tau calibration ------------------------------------ #
+    # The choice of tau is one of the report's load-bearing design arguments, so the
+    # percentiles behind it come from scripts/calibrate_tau.py rather than prose.
+    LINES.append("")
+    LINES.append("% ---- similarity-threshold calibration ----")
+    tc_path = ROOT / "results" / "tau_calibration.json"
+    tc = json.loads(tc_path.read_text(encoding="utf-8")) if tc_path.exists() else {}
+    macro("tcTracks", tc.get("n_tracks"))
+    macro("tcPairs", tc.get("n_pairs"))
+    perc = tc.get("cosine_percentiles") or {}
+    for q, kw in ((25, "TwentyFive"), (50, "Median"), (90, "Ninety"), (99, "NinetyNine")):
+        macro(f"tcP{kw}", perc.get(f"p{q}"), "{:.3f}")
+    adm = tc.get("fraction_pairs_admitted") or {}
+    # Two thresholds are compared. The chosen one is whatever the config sets, so the
+    # lookup key is derived from it rather than written twice -- otherwise changing
+    # similarity_threshold would leave every "chosen" macro silently reading ?? (the
+    # sweep is keyed by threshold string) while the prose still claimed 0.95. The
+    # naive one is a named comparison point that exists only in this argument; it is
+    # not a setting, so it is spelled out here and the report quotes the macro.
+    TAU_NAIVE = "0.85"
+    tau_chosen = f'{float(cfg.dotted("graph.similarity_threshold")):.2f}'
+    macro("tcTauNaive", float(TAU_NAIVE), "{:.2f}")
+    pct("tcAdmitNaive", adm.get(TAU_NAIVE))
+    pct("tcAdmitChosen", adm.get(tau_chosen))
+    dens = tc.get("graph_density_by_tau") or {}
+    macro("tcDensityNaive", dig(dens, TAU_NAIVE, "density_mean"), "{:.3f}")
+    macro("tcDensityChosen", dig(dens, tau_chosen, "density_mean"), "{:.3f}")
+    macro("tcDegreeChosen", dig(dens, tau_chosen, "avg_degree"), "{:.2f}")
+    pct("tcFracTemporalChosen", dig(dens, tau_chosen, "frac_temporal_edges"))
+
+    # ---------------- artefact counts ------------------------------------ #
+    LINES.append("")
+    LINES.append("% ---- artefacts ----")
+    gs = ROOT / cfg.dotted("paths.graph_samples")
+    macro("nExportedGraphs", len(list(gs.glob("*.json"))) if gs.exists() else None)
+    pl = ROOT / cfg.dotted("paths.plots")
+    macro("nFigures", len(list(pl.glob("*.png"))) if pl.exists() else None)
+
+    out.write_text("\n".join(LINES) + "\n", encoding="utf-8")
+    print(f"wrote {out} with {sum(1 for l in LINES if l.startswith(chr(92) + 'newcommand'))} macros")
+    if MISSING:
+        print(f"\n{len(MISSING)} macros have no backing measurement and will render as "
+              f"\\textbf{{??}} in the PDF:")
+        for name in MISSING:
+            print(f"  {name}")
+    else:
+        print("every macro is backed by a measurement")
+
+
+if __name__ == "__main__":
+    main()

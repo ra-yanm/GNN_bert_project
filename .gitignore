@@ -1,0 +1,67 @@
+# Python environments and caches
+.venv/
+venv/
+env/
+ENV/
+__pycache__/
+*.py[cod]
+*$py.class
+.python-version
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local secrets and configuration overrides
+.env
+.env.*
+!.env.example
+
+# Downloaded and processed datasets
+data/**
+!data/.gitkeep
+
+# Generated experiment outputs
+results/**
+!results/metrics.json
+!results/plots/
+!results/plots/**
+!results/retrieval_examples/
+!results/retrieval_examples/**
+
+# Generated prediction and analysis artifacts remain ignored explicitly.
+results/checkpoints/
+results/preds/
+results/tables/
+results/graph_samples/
+results/*.log
+
+# Notebook runtime state
+.ipynb_checkpoints/
+
+# LaTeX build products
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.lot
+*.out
+*.synctex.gz
+*.toc
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
