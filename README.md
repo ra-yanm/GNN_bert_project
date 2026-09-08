@@ -36,13 +36,8 @@ project's own premise:
    means averaging across them adds no information. Redundant neighbours are exactly
    the neighbours you gain nothing from.
 
-Read the results in **[`report/report.md`](report/report.md)** (renders on GitHub,
-no LaTeX needed) or build the PDF from `report/report.tex` — see
-[`report/README.md`](report/README.md).
 
-Numbers live in exactly one place: `results/metrics.json`, from which
-`report/numbers.tex` is generated. This README deliberately quotes almost none of
-them, so it cannot go stale.
+Numbers live in exactly one place: `results/metrics.json`.
 
 ## Setup
 
