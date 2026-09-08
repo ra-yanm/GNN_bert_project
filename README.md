@@ -46,19 +46,23 @@ them, so it cannot go stale.
 
 ## Setup
 
-CPU-only; no GPU is required and none was used. Runs were made with 12 threads.
+The reported runs used 12 CPU threads. GPU acceleration is supported; choose the
+appropriate PyTorch build for your hardware when installing dependencies.
 
 ```bash
 python -m venv .venv && source .venv/bin/activate
 ```
 
 ```bash
-pip install torch --index-url https://download.pytorch.org/whl/cpu
+pip install torch
 ```
 
 ```bash
 pip install -r requirements.txt
 ```
+
+The default `device: cpu` in `config.yaml` reproduces the reported results. Set
+it to `cuda` to train or evaluate on a CUDA-capable GPU.
 
 `requirements.lock.txt` pins the exact 77-package environment behind
 `results/metrics.json`. On Windows, create the venv at a short path (e.g. `C:\v`) —
