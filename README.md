@@ -194,9 +194,8 @@ src/
   trainer.py           one training loop for all four tasks
   metrics.py           macro/micro F1, AUC-PR, MAE, R², Pearson
 scripts/               download, preprocess, train, evaluate, calibrate_tau, predict
-tools/                 report generation and notebook builders
 notebooks/             eda.ipynb (data + graph analysis), demo_context.ipynb
-report/                report.tex, generated numbers.tex, generated report.md
+report/                final_report.pdf
 results/               metrics.json, plots/, tables/, checkpoints/, graph_samples/
 ```
 
@@ -215,14 +214,6 @@ specification's requirement of at least 20.
   measurements — but not tuned on a validation sweep.
 - Single seed per configuration. No error bars, so small differences between
   ablations should not be over-read.
-- The report is over length. `report/report.pdf` compiles (Tectonic 0.17, 18 pages, two
-  minor overfull hboxes) but the specification asks for 6–10 pages, so it still needs
-  cutting —
-  the two levers are a two-column layout and moving most of the 16 figures and 9 tables
-  into an appendix. `tools/check_report_macros.py` guards the four failure modes a
-  compiler will not catch on its own: undefined macros, `\ref`s pointing at no label,
-  quantities typed into the prose instead of coming from a measurement, and unbalanced
-  inline `$`.
 - Task 4's human evaluation is not done. The specification asks for at least five
   listeners rating retrieved clips on a 1–5 scale; every other Task 4 requirement is
   implemented and measured, but that one needs people.

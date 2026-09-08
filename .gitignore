@@ -52,6 +52,9 @@ results/*.log
 # Notebook runtime state
 .ipynb_checkpoints/
 
+# Local tooling scripts
+tools/
+
 # LaTeX build products
 *.aux
 *.bbl
