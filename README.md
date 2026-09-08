@@ -215,8 +215,9 @@ specification's requirement of at least 20.
   measurements — but not tuned on a validation sweep.
 - Single seed per configuration. No error bars, so small differences between
   ablations should not be over-read.
-- The report is over length. `report/report.pdf` compiles (Tectonic 0.17, 18 pages, four
-  overfull hboxes) but the specification asks for 6–10 pages, so it still needs cutting —
+- The report is over length. `report/report.pdf` compiles (Tectonic 0.17, 18 pages, two
+  minor overfull hboxes) but the specification asks for 6–10 pages, so it still needs
+  cutting —
   the two levers are a two-column layout and moving most of the 16 figures and 9 tables
   into an appendix. `tools/check_report_macros.py` guards the four failure modes a
   compiler will not catch on its own: undefined macros, `\ref`s pointing at no label,

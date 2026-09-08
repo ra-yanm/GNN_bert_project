@@ -84,9 +84,17 @@ def savefig(fig, name: str) -> Path:
     return out
 
 
-def write_table(name: str, header: list[str], rows: list[list], caption: str = "") -> None:
+def write_table(name: str, header: list[str], rows: list[list], caption: str = "",
+                colspec: str = "") -> None:
     """Emit the same table twice: markdown for the README, LaTeX (booktabs) for
-    the report. Writing both from one source keeps them from drifting apart."""
+    the report. Writing both from one source keeps them from drifting apart.
+
+    ``colspec`` overrides the LaTeX column specifier. The default -- ``l`` then ``r``
+    for every remaining column -- is what the numeric tables want, but ``r`` is a
+    rigid column: it cannot line-break, so a table holding free text silently runs
+    past the right margin instead of wrapping. Such a table has to name ``p{}``
+    columns explicitly. Markdown is unaffected either way; it wraps on its own.
+    """
     def fmt(v):
         if isinstance(v, float):
             return "--" if not np.isfinite(v) else f"{v:.4f}"
@@ -98,8 +106,9 @@ def write_table(name: str, header: list[str], rows: list[list], caption: str = "
     (tables_dir() / f"{name}.md").write_text("\n".join(md) + "\n", encoding="utf-8")
 
     esc = lambda s: str(s).replace("_", r"\_").replace("&", r"\&")            # noqa: E731
+    spec = colspec or ("l" + "r" * (len(header) - 1))
     tex = [r"\begin{table}[t]", r"\centering",
-           r"\begin{tabular}{l" + "r" * (len(header) - 1) + "}", r"\toprule",
+           r"\begin{tabular}{" + spec + "}", r"\toprule",
            " & ".join(esc(h) for h in header) + r" \\", r"\midrule"]
     tex += [" & ".join([esc(r[0])] + [fmt(v) for v in r[1:]]) + r" \\" for r in rows]
     tex += [r"\bottomrule", r"\end{tabular}"]
@@ -602,7 +611,19 @@ def _task3_case_studies(cfg, t3: dict, mode: str, p: dict) -> list[dict]:
                      ", ".join(study["predicted_tags"][:6])])
     write_table("task3_case_studies", ["Case", "Sample F1", "True tags", "Predicted tags"], rows,
                 f"Task 3 case studies ({mode} fusion): best, median and worst-scoring "
-                f"MusicCaps test clips at the validation-selected threshold {thr:.3f}.")
+                f"MusicCaps test clips at the validation-selected threshold {thr:.3f}.",
+                # The two tag columns hold comma-separated lists up to six tags long -- the
+                # median row alone runs to ~60 characters -- and an `r` column cannot break
+                # a line, so the default spec pushed those rows 128pt past the right margin
+                # and the text was cut off. p{} wraps them instead. 0.34\linewidth each fits
+                # inside the 16.6cm text block with room to spare once the `l`, `r` and the
+                # eight \tabcolsep gaps are paid for, and being a fraction rather than a
+                # fixed width it survives a change of geometry. \raggedright because a
+                # justified 160pt column full of unhyphenatable two-word tags ("amateur
+                # recording") stretches the interword space badly; \arraybackslash puts back
+                # the row-ending \\ that \raggedright redefines.
+                colspec=r"lr>{\raggedright\arraybackslash}p{0.34\linewidth}"
+                        r">{\raggedright\arraybackslash}p{0.34\linewidth}")
     (tables_dir() / "task3_case_studies.json").write_text(
         json.dumps(studies, indent=2), encoding="utf-8")
     return studies
@@ -748,7 +769,16 @@ def _retrieval_examples(cfg, p: dict, sim: np.ndarray) -> list[dict]:
     write_table("task4_retrieval_examples",
                 ["Caption query (truncated)", "Rank of correct audio", "Top-1 correct", "Top-1 score"],
                 rows, f"{len(examples)} caption->audio retrievals sampled evenly across the "
-                      f"rank distribution of the {sim.shape[0]}-clip test pool.")
+                      f"rank distribution of the {sim.shape[0]}-clip test pool.",
+                # Same rigid-`r` problem as task3_case_studies: the query column holds 70-odd
+                # characters of caption, which set on one line ran 114pt past the right margin
+                # and cut the text off. The three numeric columns are narrow in their data
+                # ("7", "no", "0.6250") but wide in their headers, and between them plus the
+                # eight \tabcolsep gaps they claim 259pt of the 472pt text block -- so the
+                # query column gets the remaining ~213pt, taken here as 0.42\linewidth to keep
+                # a margin. Every row wraps to two lines at any width that leaves room for the
+                # other three, so nothing is gained by abbreviating the headers to buy space.
+                colspec=r">{\raggedright\arraybackslash}p{0.42\linewidth}rrr")
     log.info("  %d retrieval examples -> results/retrieval_examples/", len(examples))
     return examples
 
