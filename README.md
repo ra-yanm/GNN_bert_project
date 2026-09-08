@@ -226,4 +226,3 @@ specification's requirement of at least 20.
 - Task 4's human evaluation is not done. The specification asks for at least five
   listeners rating retrieved clips on a 1–5 scale; every other Task 4 requirement is
   implemented and measured, but that one needs people.
-# GNN_bert_project
